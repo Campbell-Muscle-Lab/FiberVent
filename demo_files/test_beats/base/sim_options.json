@@ -1,0 +1,40 @@
+{
+    "FiberVent_options":
+    {
+        "muscle":
+        {
+            "force_control_max_delta_hs_length": 300
+        },
+        "FiberSim":
+        {
+            "max_rate": 1e4,
+            "x_pos_rel_tol": 1e-2,
+            "adjacent_bs": 1,
+            "lambda_jitter" : 0,
+            "min_hs_length": 603,
+            "xstatus_files":
+            {
+            "relative_to": "sim_output_dir",
+            "status_folder": "status_dumps",
+            "time_steps": "480:1:590"
+            },
+            "myofibrils":
+            {
+                "max_iterations": 100,
+                "force_tolerance": 1,
+                "max_delta_hs_length": 100
+            }
+        },
+        "hemi_vent": {
+            "thick_wall_approximation": "True"
+        },
+        "growth":
+        {
+            "deriv_points": 2500
+        },
+        "results": {
+            "beat_length_s": 3,
+            "summary_time_step_s": 0.001
+        }
+    }
+}

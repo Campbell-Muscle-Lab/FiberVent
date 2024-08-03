@@ -1,0 +1,79 @@
+{
+    "FiberVent_setup":
+    {
+        "FiberVentCpp_exe":
+        {
+            "exe_file": "d:/ken/github/campbellmusclelab/models/fibervent/code/fiberventcpp/bin/fiberventcpp.exe"
+        },
+        "model":
+        {
+            "relative_to": "this_file",
+            "options_file": "sim_options.json",
+            "manipulations":
+            {
+                "base_model": "model.json",
+                "generated_folder": "../generated",
+                "adjustments":
+                [
+                    {
+                        "variable": "c_kinetics",
+                        "isotype": 1,
+                        "state": 1,
+                        "transition": 1,
+                        "parameter_number": 1,
+                        "multipliers": [1],
+                        "output_type": "float"
+                    }
+                ]
+            }
+        },
+        "characterization":
+        [
+            {
+                "type": "freeform",
+                "relative_to": "this_file",
+                "sim_folder": "../sim_data",
+                "m_n": 4,
+                "time_step_s": 0.001,
+                "sim_duration_s": 2,
+                "output_image_formats": ["png", "svg"],
+                "no_of_conditions": 1,
+                "template_files": ["../templates/template_summary.json"],
+                "activation":
+                [
+                    {
+                        "type": "baroreflex",
+                        "t_start_s": 1,
+                        "t_stop_s": 10000,
+                        "simulation": [1]
+                    },
+                    {
+                        "type": "growth",
+                        "t_start_s": 20,
+                        "t_stop_s": 10000,
+                        "simulation": [1]
+                    }
+                ],
+                "perturbation":
+                [
+                    {
+                        "class": "circulation",
+                        "variable": "resistance_2",
+                        "t_start_s": 100,
+                        "t_stop_s": 105,
+                        "total_change": 200,
+                        "simulation": [1]
+                    },
+                    {
+                        "class": "circulation",
+                        "variable": "blood_volume",
+                        "t_start_s": 1000,
+                        "t_stop_s": 1005,
+                        "total_change": 1,
+                        "simulation": [1]
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{83f3c175-08c3-4f1b-b1ed-b667906ffb07}</ProjectGuid>
+    <RootNamespace>FiberVentCpp</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>bin</OutDir>
+    <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\gsl</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gsl.lib;cblas.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkStatus>false</LinkStatus>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="activation.cpp" />
+    <ClCompile Include="baroreflex.cpp" />
+    <ClCompile Include="circulation.cpp" />
+    <ClCompile Include="cmv_model.cpp" />
+    <ClCompile Include="cmv_options.cpp" />
+    <ClCompile Include="cmv_protocol.cpp" />
+    <ClCompile Include="cmv_results.cpp" />
+    <ClCompile Include="cmv_system.cpp" />
+    <ClCompile Include="FiberSim_half_sarcomere.cpp" />
+    <ClCompile Include="FiberSim_kinetic_scheme.cpp" />
+    <ClCompile Include="FiberSim_model.cpp" />
+    <ClCompile Include="FiberSim_muscle.cpp" />
+    <ClCompile Include="FiberSim_m_state.cpp" />
+    <ClCompile Include="FiberSim_options.cpp" />
+    <ClCompile Include="FiberSim_series_component.cpp" />
+    <ClCompile Include="FiberSim_thick_filament.cpp" />
+    <ClCompile Include="FiberSim_thin_filament.cpp" />
+    <ClCompile Include="FiberSim_transition.cpp" />
+    <ClCompile Include="FiberVentCpp.cpp" />
+    <ClCompile Include="growth.cpp" />
+    <ClCompile Include="growth_control.cpp" />
+    <ClCompile Include="heart_rate.cpp" />
+    <ClCompile Include="hemi_vent.cpp" />
+    <ClCompile Include="JSON_functions.cpp" />
+    <ClCompile Include="kinetic_scheme.cpp" />
+    <ClCompile Include="membranes.cpp" />
+    <ClCompile Include="mitochondria.cpp" />
+    <ClCompile Include="muscle.cpp" />
+    <ClCompile Include="MyoSim_half_sarcomere.cpp" />
+    <ClCompile Include="MyoSim_muscle.cpp" />
+    <ClCompile Include="MyoSim_options.cpp" />
+    <ClCompile Include="m_state.cpp" />
+    <ClCompile Include="perturbation.cpp" />
+    <ClCompile Include="reflex_control.cpp" />
+    <ClCompile Include="transition.cpp" />
+    <ClCompile Include="valve.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="activation.h" />
+    <ClInclude Include="baroreflex.h" />
+    <ClInclude Include="circulation.h" />
+    <ClInclude Include="cmv_model.h" />
+    <ClInclude Include="cmv_options.h" />
+    <ClInclude Include="cmv_protocol.h" />
+    <ClInclude Include="cmv_results.h" />
+    <ClInclude Include="cmv_system.h" />
+    <ClInclude Include="FiberSim_half_sarcomere.h" />
+    <ClInclude Include="FiberSim_kinetic_scheme.h" />
+    <ClInclude Include="FiberSim_model.h" />
+    <ClInclude Include="FiberSim_muscle.h" />
+    <ClInclude Include="FiberSim_options.h" />
+    <ClInclude Include="FiberSim_m_state.h" />
+    <ClInclude Include="FiberSim_series_component.h" />
+    <ClInclude Include="FiberSim_thick_filament.h" />
+    <ClInclude Include="FiberSim_thin_filament.h" />
+    <ClInclude Include="FiberSim_transition.h" />
+    <ClInclude Include="global_definitions.h" />
+    <ClInclude Include="growth.h" />
+    <ClInclude Include="growth_control.h" />
+    <ClInclude Include="heart_rate.h" />
+    <ClInclude Include="hemi_vent.h" />
+    <ClInclude Include="JSON_functions.h" />
+    <ClInclude Include="kinetic_scheme.h" />
+    <ClInclude Include="membranes.h" />
+    <ClInclude Include="mitochondria.h" />
+    <ClInclude Include="muscle.h" />
+    <ClInclude Include="MyoSim_half_sarcomere.h" />
+    <ClInclude Include="MyoSim_muscle.h" />
+    <ClInclude Include="MyoSim_options.h" />
+    <ClInclude Include="MyoSim_series_component.h" />
+    <ClInclude Include="m_state.h" />
+    <ClInclude Include="perturbation.h" />
+    <ClInclude Include="reflex_control.h" />
+    <ClInclude Include="transition.h" />
+    <ClInclude Include="valve.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
