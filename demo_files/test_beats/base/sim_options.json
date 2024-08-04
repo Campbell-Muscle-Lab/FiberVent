@@ -11,12 +11,14 @@
             "x_pos_rel_tol": 1e-2,
             "adjacent_bs": 1,
             "lambda_jitter" : 0,
-            "min_hs_length": 603,
-            "xstatus_files":
+            "min_hs_length": 600,
+            "calculate_x_mode": 2,
+            "status_files":
             {
-            "relative_to": "sim_output_dir",
-            "status_folder": "status_dumps",
-            "time_steps": "480:1:590"
+                "relative_to": "sim_output_dir",
+                "status_folder": "status_dumps",
+                "time_steps": "1:100:2000",
+                "dump_precision": 12
             },
             "myofibrils":
             {

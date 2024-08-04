@@ -12,6 +12,8 @@
 #include "rapidjson/document.h"
 #endif
 
+#include <string>
+
 #include "stdio.h"
 
 class FiberSim_options
@@ -38,8 +40,12 @@ public:
     double x_pos_rel_tol;               /**< double defining the relative tolerance for calculating
                                              x positions */
 
-    int x_vector_max_iterations;       /**< double defining the max number of iterations for
+    int x_vector_max_iterations;        /**< double defining the max number of iterations for
                                              the x_vector calculation */
+
+    int calculate_x_mode;               /**< integer:
+                                                1 - means use sparse_F_and_G method
+                                                other - means use original ye method */
 
     double hs_force_control_max_delta_hs_length;
                                         /**< double defining the bracket size for determing the length
@@ -107,12 +113,8 @@ public:
                                              1 means log
                                              Value is set by the presence of log_folder */
 
-    char status_relative_to[_MAX_PATH]; /**< char array used to direct paths */
-
     char status_folder[_MAX_PATH];      /**< Folder to hold status files
                                              "none" means do not write files */
-
-    char rate_relative_to[_MAX_PATH];  /**< char array used to direct paths */
 
     char rate_file_string[_MAX_PATH];   /**< file_string for rate functions.*/
 
@@ -132,6 +134,11 @@ public:
      */
     void set_FiberSim_options_from_JSON_file_string(const rapidjson::Value& doc);
 
+    /**
+     * a function that adapts the rate and status files to the output directory
+     * @param results_file_string the results file string
+     */
+    void adapt_file_paths(std::string results_file_string);
 
     /**
      * a function that writes model options to file

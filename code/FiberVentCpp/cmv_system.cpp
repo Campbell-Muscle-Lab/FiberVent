@@ -20,6 +20,7 @@
 #include "cmv_results.h"
 #include "cmv_protocol.h"
 #include "cmv_model.h"
+#include "FiberSim_options.h"
 
 using namespace std;
 
@@ -86,6 +87,12 @@ void cmv_system::run_simulation(string protocol_file_string,
 	bool new_beat = false;
 
 	// Code
+	if (p_circulation->p_hemi_vent->p_muscle->p_FiberSim_muscle != NULL)
+	{
+		p_cmv_options->p_FiberSim_options->adapt_file_paths(results_file_string);
+	}
+
+
 
 	// Initialise the protocol object
 	p_cmv_protocol = new cmv_protocol(this, protocol_file_string);

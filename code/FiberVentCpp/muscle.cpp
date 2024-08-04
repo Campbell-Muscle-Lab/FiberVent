@@ -143,17 +143,10 @@ void muscle::initialise_simulation(void)
 		//p_MyoSim_muscle->initialise_for_simulation();
 	}
 
-	printf("muscle::initialise_for_simulation check 1\n");
-
 	// Now adjust muscle to slack length
 	slack_length = return_muscle_length_for_stress(0.0, 0.00);
 
-	printf("muscle::initialise_for_simulation check 2\n");
-
 	change_muscle_length(slack_length - muscle_length, 0.0);
-
-
-	printf("muscle::initialise_for_simulation check 3\n");
 
 	// Adjust the series component last length
 	if (p_FiberSim_muscle != NULL)
@@ -169,16 +162,7 @@ void muscle::initialise_simulation(void)
 
 	printf("Muscle is slack\n");
 	printf("Slack_length: %g\n", slack_length);
-	printf("muscle_length: %g\n", muscle_length);
 	printf("muscle_force: %g\n", muscle_stress);
-
-	printf("p_sc_ext: %g\n", p_FiberSim_muscle->p_FiberSim_sc->sc_extension);
-	printf("p_fs_hsl: %g\n", p_FiberSim_muscle->p_FiberSim_hs->hs_length);
-	printf("p_collagen: %g\n", p_FiberSim_muscle->p_FiberSim_hs->hs_extracellular_force);
-	printf("p_titin: %g\n", p_FiberSim_muscle->p_FiberSim_hs->hs_titin_force);
-
-	//exit(1);
-
 }
 
 bool muscle::implement_time_step(double time_step_s)
@@ -255,9 +239,7 @@ double muscle::return_wall_stress_after_test_delta_ml(double delta_ml, double ti
 	// Code
 	if (p_FiberSim_muscle != NULL)
 	{
-		printf("test check\n");
 		wall_stress = p_FiberSim_muscle->return_wall_stress_after_test_delta_ml(delta_ml, time_step_s);
-		printf("test check 2: delta_ml: %g  wall_stress: %g\n", delta_ml, wall_stress);
 	}
 	else
 	{
