@@ -8,8 +8,8 @@ aux_links:
   Template Repository: https://github.com/Campbell-Muscle-Lab/FiberVent
 
 
-plugins:
-  - jekyll-default-layout
+  plugins:
+    - jekyll-default-layout
 
 mermaid:
   version: "9.1.3"
