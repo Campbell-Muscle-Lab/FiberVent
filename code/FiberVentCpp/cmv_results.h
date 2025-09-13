@@ -142,4 +142,6 @@ public:
 	void backfill_beat_data(gsl_vector* gsl_v, double value,
 		int start_t_index, int stop_t_index);
 
+	double return_extreme_value_for_beat(int field_index, int beat_t_index, bool maximum);
+
 };

@@ -65,6 +65,10 @@ public:
 													was last updated. Used for progressive
 													file writes */
 
+	double summary_full_dump;					/**< integer showing whether we are
+													in dumping full data or
+													the beat envelope */
+
 	int system_id;
 
 	// Functions

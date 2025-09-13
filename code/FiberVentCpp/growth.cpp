@@ -124,13 +124,13 @@ void growth::implement_time_step(double time_step_s, bool new_beat)
 		if (p_gc[i]->gc_type == "concentric")
 		{
 			delta_relative_wall_thickness = delta_relative_wall_thickness +
-				(time_step_s * p_gc[i]->gc_output);
+				(time_step_s * gr_master_rate * p_gc[i]->gc_output);
 		}
 
 		if (p_gc[i]->gc_type == "eccentric")
 		{
 			delta_relative_n_hs = delta_relative_n_hs +
-				(time_step_s * p_gc[i]->gc_output);
+				(time_step_s * gr_master_rate * p_gc[i]->gc_output);
 		}
 	}
 

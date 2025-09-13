@@ -63,6 +63,8 @@ cmv_system::cmv_system(string JSON_model_file_string,
 	beat_t_index = 0;
 	summary_t_index = 0;
 
+	summary_full_dump = 1.0;
+
 	// Initialises an options object
 	p_cmv_options = new cmv_options(options_file_string);
 
@@ -133,11 +135,17 @@ void cmv_system::run_simulation(string protocol_file_string,
 		{
 			p_cmv_options->summary_points = p_cmv_options->summary_points + 1;
 		}
-
 		sim_t = sim_t + p_cmv_protocol->time_step_s;
 	}
 
-	cout << "Summary points: " << p_cmv_options->summary_points << "\n";
+	// Add extra points for beats if in burst mode
+	if (p_cmv_options->burst_mode == true)
+	{
+		p_cmv_options->summary_points = p_cmv_options->summary_points +
+			int(10 * (p_cmv_protocol->no_of_time_steps * p_cmv_protocol->time_step_s));
+	}
+
+	cout << "\nSummary points: " << p_cmv_options->summary_points << "\n\n";
 
 	// Now create it
 	p_cmv_results_summary = new cmv_results(this, p_cmv_options->summary_points);
@@ -235,6 +243,8 @@ void cmv_system::add_fields_to_cmv_results_beat(void)
 
 	// Now add the results fields
 	p_cmv_results_beat->add_results_field("time", &cum_time_s);
+
+	p_cmv_results_beat->add_results_field("summary_full_dump", &summary_full_dump);
 }
 
 bool cmv_system::implement_time_step(double time_step_s)
@@ -277,6 +287,8 @@ void cmv_system::update_cmv_results_summary(void)
 
 	bool new_beat_flag = false;
 
+	double temp_double;
+
 	// Code
 
 	// We have to run through the entire beat to capture the fields that
@@ -288,6 +300,9 @@ void cmv_system::update_cmv_results_summary(void)
 		if (sim_time_dumps_to_summary(
 				gsl_vector_get(p_cmv_results_beat->gsl_results_vectors[p_cmv_results_beat->time_field_index], b_ind)))
 		{
+			// Set the flag
+			summary_full_dump = 1.0;
+
 			for (int f_ind = 0; f_ind < p_cmv_results_beat->no_of_defined_results_fields; f_ind++)
 			{
 				if ((p_cmv_results_beat->results_fields[f_ind] == "hr_new_beat") &&
@@ -301,14 +316,49 @@ void cmv_system::update_cmv_results_summary(void)
 				else
 				{
 					// Update the array
-					double temp;
 
 					// Pull data from results_beat
-					temp = gsl_vector_get(p_cmv_results_beat->gsl_results_vectors[f_ind], b_ind);
+					temp_double = gsl_vector_get(p_cmv_results_beat->gsl_results_vectors[f_ind], b_ind);
 
 					// Write data to results_summary
 					gsl_vector_set(p_cmv_results_summary->gsl_results_vectors[f_ind],
-						summary_t_index, temp);
+						summary_t_index, temp_double);
+				}
+			}
+
+			summary_t_index = summary_t_index + 1;
+		}
+	}
+
+	// If we are in burst mode, and we weren't dumping the beat, add the envelope
+	if ( (p_cmv_options->burst_mode == true) &&
+		 (sim_time_dumps_to_summary(gsl_vector_get(p_cmv_results_beat->gsl_results_vectors[p_cmv_results_beat->time_field_index], 0)) == false) &&
+			(sim_time_dumps_to_summary(gsl_vector_get(p_cmv_results_beat->gsl_results_vectors[p_cmv_results_beat->time_field_index], beat_t_index)) == false))
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			for (int f_ind = 0; f_ind < p_cmv_results_beat->no_of_defined_results_fields; f_ind++)
+			{
+				if (p_cmv_results_beat->results_fields[f_ind] == "summary_full_dump")
+				{
+					gsl_vector_set(p_cmv_results_summary->gsl_results_vectors[f_ind],
+						summary_t_index, 0.0);
+				}
+				else
+				{
+					if (i == 0)
+					{
+						temp_double = p_cmv_results_beat->return_extreme_value_for_beat(
+								f_ind, beat_t_index, false);
+					}
+					else
+					{
+						temp_double = p_cmv_results_beat->return_extreme_value_for_beat(
+							f_ind, beat_t_index, true);
+					}
+
+					gsl_vector_set(p_cmv_results_summary->gsl_results_vectors[f_ind],
+						summary_t_index, temp_double);
 				}
 			}
 
@@ -319,15 +369,43 @@ void cmv_system::update_cmv_results_summary(void)
 
 bool cmv_system::sim_time_dumps_to_summary(double sim_time)
 {
-	//! Returns true if sim_time should be sumped to summary
+	//! Returns true if sim_time should be dumped to summary
 	//! False otherwise
 	
-	if (abs(remainder(sim_time, p_cmv_options->summary_time_step_s)) < 1e-6)
+	if (p_cmv_options->burst_mode == false)
 	{
-		return true;
+		if (abs(remainder(sim_time, p_cmv_options->summary_time_step_s)) < 1e-6)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	else
 	{
-		return false;
+		// Bit more complicated for burst_mode
+		double nearest_burst_start_time;
+		
+		nearest_burst_start_time = floor(sim_time / p_cmv_options->burst_every_s) *
+			p_cmv_options->burst_every_s;
+
+		if ((sim_time - nearest_burst_start_time) < p_cmv_options->burst_length_s)
+		{
+			if (abs(remainder(sim_time, p_cmv_options->summary_time_step_s)) < 1e-6)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
+
 }

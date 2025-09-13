@@ -90,6 +90,15 @@ public:
 													output file - useful to evaluate
 													long simulations */
 
+	bool burst_mode;						/**< bool defining whether we are in burst
+													mode or not */
+
+	double burst_length_s;					/**< double defining the length of a burst
+													of summary_output in seconds */
+
+	double burst_every_s;					/**< double defining the interval in seconds
+													between burst outputs */
+
 	FiberSim_options* p_FiberSim_options;	/**< pointer to a FiberSim options object */
 
 	MyoSim_options* p_MyoSim_options;		/**< pointer to a MyoSim options object */

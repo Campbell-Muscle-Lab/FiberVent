@@ -37,6 +37,7 @@ cmv_options::cmv_options(string set_options_file_string)
 
 	// Set defaults
 	write_every_s = GSL_NAN;
+	burst_mode = false;
 
 	// Now update from file
 	initialise_options_from_JSON_file(options_file_string);
@@ -116,6 +117,20 @@ void cmv_options::initialise_options_from_JSON_file(string options_file_string)
 		if (JSON_functions::check_JSON_member_exists(res, "write_every_s"))
 		{
 			write_every_s = res["write_every_s"].GetDouble();
+		}
+
+		// Check for burst mode
+		if (JSON_functions::check_JSON_member_exists(res, "burst_mode"))
+		{
+			burst_mode = true;
+
+			const rapidjson::Value& bm = res["burst_mode"];
+
+			JSON_functions::check_JSON_member_number(bm, "burst_length_s");
+			burst_length_s = bm["burst_length_s"].GetDouble();
+
+			JSON_functions::check_JSON_member_number(bm, "burst_every_s");
+			burst_every_s = bm["burst_every_s"].GetDouble();
 		}
 	}
 

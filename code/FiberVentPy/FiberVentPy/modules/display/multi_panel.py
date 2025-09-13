@@ -101,13 +101,13 @@ def multi_panel_from_flat_data(
             pandas_data = pd.read_excel(data_file_string,
                                         sheet_name=excel_sheet)
         else:
-            pandas_data = pd.read_csv(data_file_string,
-                                      sep='\t')
+            # pandas_data = pd.read_csv(data_file_string,
+            #                           sep='\t')
+
+            pandas_data = pd.read_csv(data_file_string, sep='\t',
+                                      na_values = ['-nan(ind)', 'nan'])                            
             
     # Drop all rows where time is NaN
-    t = pandas_data['time']
-    t = pd.to_numeric(t, errors='coerce')
-    pandas_data['time'] = t
     pandas_data = pandas_data.dropna(subset=['time'])
 
     # Try to work out x data
@@ -240,7 +240,6 @@ def multi_panel_from_flat_data(
             if ('field' in y_d):
                 # Pull y data, handling NaNs
                 y = pandas_data[y_d['field']]
-                y = pd.to_numeric(y, errors='coerce')
                 y = y.values[vi]
     
                 if 'scaling_factor' in y_d:
@@ -264,13 +263,17 @@ def multi_panel_from_flat_data(
 
             # Track min and max y
             if (j == 0):
-                min_x = x[0]
-                max_x = x[0]
+                if (np.isnan(x[0])):
+                    max_x = 0
+                    min_x = 0
+                else:
+                    min_x = x[0]
+                    max_x = x[0]
 
-            min_x = np.amin([min_x, np.amin(x)])
+            min_x = np.amin([min_x, np.amin(x[~np.isnan(x)])])
             max_x = np.amax([max_x, np.amax(x)])
             
-            y_finite = y[~np.isnan(y)]
+            y_finite = y[np.isfinite(y)]
             if (j==0):
                 if (len(y_finite) == 0):
                     min_y = 0
@@ -284,6 +287,10 @@ def multi_panel_from_flat_data(
                 max_y = np.amax([max_y, np.amax(y_finite)])
             else:
                 continue
+            
+            # if ('field' in y_d) and (y_d['field'] == 'gc_1_prop_signal'):
+            #     print('field: %s  min_y: %g  max_y: %g' % (y_d['field'], min_y, max_y))
+            #     exit(1)
 
             # Down sample line if required
             if (x.size > processing['max_points_per_trace']):
@@ -548,6 +555,7 @@ def multiple_greater_than(v, multiple=0.1):
 
 
 def multiple_less_than(v, multiple=0.1):
+    
     if (v > 0):
         n = np.floor(np.log10(v))
         m = multiple*np.power(10, n)
@@ -556,7 +564,7 @@ def multiple_less_than(v, multiple=0.1):
         n = np.floor(np.log10(-v))
         m = multiple*np.power(10, n)
         v = m*np.floor(v/m)
-
+    
     return v
 
 

@@ -107,8 +107,31 @@ void perturbation::impose(double sim_time_s)
 			}
 		}
 
+		if (class_name == "growth")
+		{
+			if (variable == "master_rate")
+			{
+				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_growth->gr_master_rate);
+			}
+		}
+
 		if (class_name == "growth_control")
 		{
+			if (variable.rfind("set_point", 0) == 0)
+			{
+				// Starts with set_point
+				int no_of_digits = 1;
+				int digits[1];
+				int control_index;
+
+				extract_digits(variable, digits, 1);
+
+				control_index = digits[0] - 1;
+
+				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->
+					p_growth->p_gc[control_index]->gc_set_point);
+			}
+			
 			if (variable.rfind("prop_gain", 0) == 0)
 			{
 				// Starts with prop_gain
@@ -387,6 +410,31 @@ void perturbation::impose(double sim_time_s)
 				p_double = gsl_vector_ptr(p_FiberSim_hs->p_fs_model->p_c_scheme[0]->p_m_states[state_index]->
 					p_transitions[transition_index]->rate_parameters,
 					parameter_index);
+			}
+
+			if (variable == "t_sigma")
+			{
+				p_double = &(p_FiberSim_hs->t_sigma);
+			}
+
+			if (variable == "t_k_stiff")
+			{
+				p_double = &(p_FiberSim_hs->t_k_stiff);
+			}
+
+			if (variable == "e_sigma")
+			{
+				p_double = &(p_FiberSim_hs->e_sigma);
+			}
+
+			if (variable == "e_L")
+			{
+				p_double = &(p_FiberSim_hs->e_L);
+			}
+
+			if (variable == "viscosity")
+			{
+				p_double = &(p_FiberSim_hs->viscosity);
 			}
 		}
 

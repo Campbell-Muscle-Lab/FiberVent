@@ -97,155 +97,198 @@ def generate_model_files(json_analysis_file_string):
     with open(base_model_file_string, 'r') as f:
         base_model = json.load(f)
 
-    # Now work out how many adjustments you need to make
-    adjustments = model_struct['manipulations']['adjustments']
-    if ('multipliers' in adjustments[0]):
-        no_of_models = len(adjustments[0]['multipliers'])
-    else:
-        no_of_models = 1
+    # Now work out if we need to make adjustments
+    if not ('adjustments' in model_struct['manipulations']):
+        # No manipulations to model file, copy the base to the
+        # generated folder and note the file name
+
+        new_model_file_string = os.path.join(generated_dir,
+                                             'model_1.json')
+        
+        shutil.copy(base_model_file_string, new_model_file_string)
+        
+        generated_models = [new_model_file_string]
+
+    else:        
+        adjustments = model_struct['manipulations']['adjustments']
+        
+        if not ('multipliers' in adjustments[0]):
+            print('Error: No multipliers supplied')
+            exit(1)
+        else:
+            no_of_models = len(adjustments[0]['multipliers'])
     
-    generated_models = []
-        
-    # Loop through them
-    for i in range(no_of_models):
-        
-        # Copy the base model
-        adj_model = copy.deepcopy(base_model)
-                
-        for (j,a) in enumerate(adjustments):
+        generated_models = []
             
-            if (a['class'] == 'circulation'):
-                
-                # Check whether a['variable'] includes numbers
-                if (bool(re.search(r'\d', a['variable']))):
-                    # Likely entry into an array
-                    temp = re.findall(r'\d+', a['variable'])
-                    cpt_number = int(temp[0])
-                    var_name = a['variable'].split('_')[0]
-                    
-                    y = np.asarray(adj_model['FiberVent']['circulation']['compartments'][var_name],
-                                   dtype = np.float32)
-                    
-                    base_value = y[cpt_number - 1]
-                                   
-                    y[cpt_number - 1] = base_value * a['multipliers'][i]
-                    
-                    adj_model['FiberVent']['circulation']['compartments'][var_name] = y.tolist()
-                    
-                else:
-                    # Should be a single entry
-                    base_value = adj_model['FiberVent']['circulation'][a['variable']]
-
-                    value = base_value * a['multipliers'][i]
-                    
-                    adj_model['FiberVent']['circulation'][a['variable']] = value
-                    
-            elif (a['class'] == 'aortic_valve'):
-                base_value = adj_model['FiberVent']['circulation']['ventricle']['valves']['aortic'][a['variable']]
-                
-                value = base_value * a['multipliers'][i]
-                
-                adj_model['FiberVent']['circulation']['ventricle']['valves']['aortic'][a['variable']] = value
-                
-            elif (a['class'] == 'mitral_valve'):
-                base_value = adj_model['FiberVent']['circulation']['ventricle']['valves']['mitral'][a['variable']]
-                
-                value = base_value * a['multipliers'][i]
-                
-                adj_model['FiberVent']['circulation']['ventricle']['valves']['mitral'][a['variable']] = value
+        # Loop through them
+        for i in range(no_of_models):
             
-            elif (a['class'] == 'growth_control'):
-                gc = adj_model['FiberVent']['growth']['control'][a['control_number']-1]
-
-                base_value = gc[a['variable']]
+            # Copy the base model
+            adj_model = copy.deepcopy(base_model)
+                    
+            for (j,a) in enumerate(adjustments):
                 
-                value = base_value * a['multipliers'][i]
-                
-                adj_model['FiberVent']['growth']['control'][a['control_number']-1][a['variable']] = \
-                    value
+                if (a['class'] == 'circulation'):
                     
-            elif (a['class'] == 'mitochondria'):
-                mito_dict = adj_model['FiberVent']['circulation']['ventricle']['myocardium']['mitochondria']
-
-                base_value = mito_dict[a['variable']]
-                
-                value = base_value * a['multipliers'][i]
-                
-                adj_model['FiberVent']['circulation']['ventricle']['myocardium']['mitochondria'][a['variable']] = \
-                    value
-                    
-            elif ((a['class'] == 'm_kinetics') or
-                    (a['class'] == 'c_kinetics')):
-
-                kinetics_structure = adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
-                    ['model']['muscle']['half_sarcomere'][a['class']][a['isotype']-1]['state'][a['state']-1]
-
-                # Special case for kinetics
-                if ('extension' in a):
-                    base_value = a['extension']
-                    
-                    value = base_value * a['multipliers'][i]
-                    
-                    kinetics_structure['extension'] = value
-                else:
-                    # Transition parameters
-                    y = np.asarray(kinetics_structure['transition'][a['transition']-1] \
-                                   ['rate_parameters'], dtype = np.float32)
-                    
-                    base_value = y[a['parameter_number'] - 1]
-                    value = base_value * a['multipliers'][i]
+                    # Check whether a['variable'] includes numbers
+                    if (bool(re.search(r'\d', a['variable']))):
+                        # Likely entry into an array
+                        temp = re.findall(r'\d+', a['variable'])
+                        cpt_number = int(temp[0])
+                        var_name = a['variable'].split('_')[0]
                         
-                    y[a['parameter_number']-1] = value
-                    
-                    kinetics_structure['transition'][a['transition']-1]['rate_parameters'] = \
-                        y.tolist()
+                        y = np.asarray(adj_model['FiberVent']['circulation']['compartments'][var_name],
+                                       dtype = np.float32)
                         
-                # Insert back into model
-                adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
-                    ['model']['muscle']['half_sarcomere'][a['class']][a['isotype']-1]['state'][a['state']-1] = \
-                        kinetics_structure                  
-                
-            elif ((a['class'] == 'titin_parameters') or
-                  (a['class'] == 'extracellular_parameters')):
-                
-                base_value = adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
-                    ['model']['muscle']['half_sarcomere'][a['class']][a['variable']]
-                
-                value = base_value * a['multipliers'][i]
-                
-                adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
-                    ['model']['muscle']['half_sarcomere'][a['class']][a['variable']] = value
-                
-            else:
-                base_value = adj_model[a['class']][a['variable']]
-                
-                value = base_value * a['multipliers'][i]
-                
-                if (a['output_type'] == 'int'):
-                    adj_model[a['class']][a['variable']] = int(value)
-                    
-                if (a['output_type'] == 'float'):
-                    adj_model[a['class']][a['variable']] = float(value)
-                    
-                # Check for NaN
-                if (np.isnan(value)):
-                    adj_model[a['class']][a['variable']] = 'null'
+                        base_value = y[cpt_number - 1]
+                                       
+                        y[cpt_number - 1] = base_value * a['multipliers'][i]
+                        
+                        adj_model['FiberVent']['circulation']['compartments'][var_name] = y.tolist()
+                        
+                    else:
+                        # Should be a single entry
+                        base_value = adj_model['FiberVent']['circulation'][a['variable']]
     
-        # Now generate the model file string
-        model_file_string = 'model_%i.json' % (i+1)
+                        value = base_value * a['multipliers'][i]
+                        
+                        adj_model['FiberVent']['circulation'][a['variable']] = value
+                        
+                elif (a['class'] == 'aortic_valve'):
+                    base_value = adj_model['FiberVent']['circulation']['ventricle']['valves']['aortic'][a['variable']]
+                    
+                    value = base_value * a['multipliers'][i]
+                    
+                    adj_model['FiberVent']['circulation']['ventricle']['valves']['aortic'][a['variable']] = value
+                    
+                elif (a['class'] == 'mitral_valve'):
+                    base_value = adj_model['FiberVent']['circulation']['ventricle']['valves']['mitral'][a['variable']]
+                    
+                    value = base_value * a['multipliers'][i]
+                    
+                    adj_model['FiberVent']['circulation']['ventricle']['valves']['mitral'][a['variable']] = value
+                
+                elif (a['class'] == 'growth_control'):
+                    
+                    g = adj_model['FiberVent']['growth']
+                    
+                    if ('control_number' in a):
+                        gc = g['control'][a['control_number']-1]
+    
+                        base_value = gc[a['variable']]
+                    
+                        value = base_value * a['multipliers'][i]
+                    
+                        adj_model['FiberVent']['growth']['control'][a['control_number']-1][a['variable']] = \
+                            value
+                    else:
+                        base_value = g[a['variable']]
+                        
+                        value = base_value * a['multipliers'][i]
+                        
+                        adj_model['FiberVent']['growth'][a['variable']] = value
+                        
+                        
+                elif (a['class'] == 'mitochondria'):
+                    mito_dict = adj_model['FiberVent']['circulation']['ventricle']['myocardium']['mitochondria']
+    
+                    base_value = mito_dict[a['variable']]
+                    
+                    value = base_value * a['multipliers'][i]
+                    
+                    adj_model['FiberVent']['circulation']['ventricle']['myocardium']['mitochondria'][a['variable']] = \
+                        value
+                        
+                elif (a['class'] == 'FiberSim_half_sarcomere'):
+                    
+                    fhs = adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
+                            ['model']['muscle']['half_sarcomere']
+                            
+                    if (a['variable'] == 'viscosity'):
+                        
+                        base_value = fhs['lattice_parameters'][a['variable']]
+                        
+                        value = base_value * a['multipliers'][i]
+                        
+                        fhs['lattice_parameters'][a['variable']] = value
+                            
+                    if (a['variable'].startswith('t_')):
+                        
+                        base_value = fhs['titin_parameters'][a['variable']]
+                        
+                        value = base_value * a['multipliers'][i]
+                        
+                        fhs['titin_parameters'][a['variable']] = value
+                        
+                    elif (a['variable'].startswith('e_')):
+                        
+                        base_value = fhs['extracellular_parameters'][a['variable']]
+                        
+                        value = base_value * a['multipliers'][i]
+                        
+                        fhs['extracellular_parameters'][a['variable']] = value
+                        
+                    elif ((a['class'] == 'm_kinetics') or
+                        (a['class'] == 'c_kinetics')):
+    
+                        kinetics_structure = adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
+                            ['model']['muscle']['half_sarcomere'][a['class']][a['isotype']-1]['state'][a['state']-1]
+    
+                        # Special case for kinetics
+                        if ('extension' in a):
+                            base_value = a['extension']
+                        
+                            value = base_value * a['multipliers'][i]
+                        
+                            kinetics_structure['extension'] = value
+                        else:
+                            # Transition parameters
+                            y = np.asarray(kinetics_structure['transition'][a['transition']-1] \
+                                           ['rate_parameters'], dtype = np.float32)
+                        
+                            base_value = y[a['parameter_number'] - 1]
+                            value = base_value * a['multipliers'][i]
+                            
+                            y[a['parameter_number']-1] = value
+                        
+                            kinetics_structure['transition'][a['transition']-1]['rate_parameters'] = \
+                                y.tolist()
+                            
+                            # Insert back into model
+                            adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
+                                ['model']['muscle']['half_sarcomere'][a['class']][a['isotype']-1]['state'][a['state']-1] = \
+                                    kinetics_structure                  
+                   
+                else:
+                    base_value = adj_model[a['class']][a['variable']]
+                    
+                    value = base_value * a['multipliers'][i]
+                    
+                    if (a['output_type'] == 'int'):
+                        adj_model[a['class']][a['variable']] = int(value)
+                        
+                    if (a['output_type'] == 'float'):
+                        adj_model[a['class']][a['variable']] = float(value)
+                        
+                    # Check for NaN
+                    if (np.isnan(value)):
+                        adj_model[a['class']][a['variable']] = 'null'
         
-        # We need the full path to write it to disk
-        adj_model_file_string = os.path.join(generated_dir,
-                                             model_file_string)
-
-        with open(adj_model_file_string, 'w') as f:
-            json.dump(adj_model, f, indent=4)
-
-        # Append the model files
-        if not (model_struct['relative_to'] == 'this_file'):
-            model_file_string = adj_model_file_string
+            # Now generate the model file string
+            model_file_string = 'model_%i.json' % (i+1)
             
-        generated_models.append(model_file_string)
+            # We need the full path to write it to disk
+            adj_model_file_string = os.path.join(generated_dir,
+                                                 model_file_string)
+    
+            with open(adj_model_file_string, 'w') as f:
+                json.dump(adj_model, f, indent=4)
+    
+            # Append the model files
+            if not (model_struct['relative_to'] == 'this_file'):
+                model_file_string = adj_model_file_string
+                
+            generated_models.append(model_file_string)
         
     # Update the set up file
     

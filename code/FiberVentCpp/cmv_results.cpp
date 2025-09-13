@@ -435,3 +435,47 @@ void cmv_results::backfill_beat_data(gsl_vector* gsl_v, double value, int start_
 		gsl_vector_set(gsl_v, i, value);
 	}
 }
+
+double cmv_results::return_extreme_value_for_beat(int field_index, int beat_t_index, bool maximum)
+{
+	//! Returns the extreme value of gsl_v excluding NaNs
+	//! Returns the maximum if maximum == 1, minimum otherwise
+	
+	// Variables
+	double extreme;
+	double test_value;
+
+	gsl_vector* gsl_v = gsl_results_vectors[field_index];
+
+	// Code
+	if (maximum == true)
+	{
+		extreme = GSL_NEGINF;
+	}
+	else
+	{
+		extreme = GSL_POSINF;
+	}
+
+
+	for (size_t i = 0; i < beat_t_index; i++)
+	{
+		test_value = gsl_vector_get(gsl_v, i);
+
+		if (gsl_isnan(test_value))
+			continue;
+
+		if (maximum == true)
+		{
+			if (test_value > extreme)
+				extreme = test_value;
+		}
+		else
+		{
+			if (test_value < extreme)
+				extreme = test_value;
+		}
+	}
+
+	return extreme;
+}

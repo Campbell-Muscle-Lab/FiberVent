@@ -41,9 +41,13 @@ class output_handler():
         # Check for a sim_results file, overwriting sim data that may
         # have been passed in
         if sim_results_file_string:
-            print('Loading sim data from %s' % sim_results_file_string)
-            sim_data = pd.read_csv(sim_results_file_string,
-                                   delimiter='\t')
+            try:
+                print('Loading sim data from %s' % sim_results_file_string)
+                sim_data = pd.read_csv(sim_results_file_string,
+                                       delimiter='\t')
+            except:
+                print('Sim data %s could not be loaded' % sim_results_file_string)
+                return
 
         # Check we have data to do something with
         if not isinstance(sim_data, pd.DataFrame):
