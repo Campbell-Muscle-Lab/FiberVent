@@ -211,6 +211,22 @@ def generate_model_files(json_analysis_file_string):
                         value = base_value * a['multipliers'][i]
                         
                         fhs['lattice_parameters'][a['variable']] = value
+
+                    elif (a['variable'].startswith('a_k')):
+
+                        base_value = fhs['thin_parameters'][a['variable']]
+
+                        value = base_value * a['multipliers'][i]
+
+                        fhs['thin_parameters'][a['variable']] = value
+
+                    elif (a['variable'] == 'a_regulatory_units_per_strand'):
+
+                        base_value = fhs['thin_structure'][a['variable']]
+
+                        value = int(base_value * a['multipliers'][i])
+
+                        fhs['thin_structure'][a['variable']] = value
                             
                     if (a['variable'].startswith('t_')):
                         
@@ -297,6 +313,11 @@ def generate_model_files(json_analysis_file_string):
     
     # Delete the adjustments
     del(json_data['FiberVent_setup']['model']['manipulations'])
+
+    # Update the options
+    file_parts = os.path.split(new_options_file)
+
+    json_data['FiberVent_setup']['model']['options_file'] = file_parts[-1]
     
     # Generate a new setup file string
     generated_setup_file_string = os.path.join(generated_dir,
@@ -343,7 +364,10 @@ def deduce_freeform_properties(json_analysis_file_string,
     # Can use the base dir from above
     base_options_file = os.path.join(base_dir,
                                     anal_struct['model']['options_file'])
-    
+
+    # Tidy up
+    base_options_file = str(Path(base_options_file).absolute().resolve())
+   
     
     # Now do stuff based on the characterization
     
