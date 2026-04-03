@@ -321,7 +321,7 @@ void perturbation::impose(double sim_time_s)
 			}
 		}
 
-		if (class_name == "muscle")
+		if (class_name == "material")
 		{
 			if (variable == "prop_fibrosis")
 			{
@@ -350,7 +350,6 @@ void perturbation::impose(double sim_time_s)
 			}
 		}
 
-
 		if (class_name == "mitochondria")
 		{
 			if (variable == "ATP_generation_rate")
@@ -360,7 +359,7 @@ void perturbation::impose(double sim_time_s)
 			}
 		}
 
-		if (class_name == "FiberSim_half_sarcomere")
+		if (class_name == "thick_kinetics")
 		{
 			FiberSim_half_sarcomere* p_FiberSim_hs =
 				p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->
@@ -411,15 +410,66 @@ void perturbation::impose(double sim_time_s)
 					p_transitions[transition_index]->rate_parameters,
 					parameter_index);
 			}
+		}
+
+		if (class_name == "thin_parameters")
+		{
+			FiberSim_half_sarcomere* p_FiberSim_hs =
+				p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->
+				p_FiberSim_muscle->p_FiberSim_hs;
+
+			if (variable == "a_k_on")
+			{
+				p_double = &(p_FiberSim_hs->a_k_on);
+			}
+
+			if (variable == "a_k_off")
+			{
+				p_double = &(p_FiberSim_hs->a_k_off);
+			}
+
+			if (variable == "a_k_coop")
+			{
+				p_double = &(p_FiberSim_hs->a_gamma_coop);
+			}
+		}
+
+		if (class_name == "titin_parameters")
+		{
+			FiberSim_half_sarcomere* p_FiberSim_hs =
+				p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->
+				p_FiberSim_muscle->p_FiberSim_hs;
+
+			if (variable == "t_k_stiff")
+			{
+				p_double = &(p_FiberSim_hs->t_k_stiff);
+			}
 
 			if (variable == "t_sigma")
 			{
 				p_double = &(p_FiberSim_hs->t_sigma);
 			}
 
-			if (variable == "t_k_stiff")
+			if (variable == "t_L")
 			{
-				p_double = &(p_FiberSim_hs->t_k_stiff);
+				p_double = &(p_FiberSim_hs->t_L);
+			}
+
+			if (variable == "t_offset")
+			{
+				p_double = &(p_FiberSim_hs->t_offset);
+			}
+		}
+
+		if (class_name == "extracellular_parameters")
+		{
+			FiberSim_half_sarcomere* p_FiberSim_hs =
+				p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->
+				p_FiberSim_muscle->p_FiberSim_hs;
+
+			if (variable == "e_k_stiff")
+			{
+				p_double = &(p_FiberSim_hs->e_k_stiff);
 			}
 
 			if (variable == "e_sigma")
@@ -432,74 +482,11 @@ void perturbation::impose(double sim_time_s)
 				p_double = &(p_FiberSim_hs->e_L);
 			}
 
-			if (variable == "viscosity")
+			if (variable == "e_slack_length")
 			{
-				p_double = &(p_FiberSim_hs->viscosity);
+				p_double = &(p_FiberSim_hs->e_slack_length);
 			}
 		}
-
-		/*
-		if (class_name == "myofilaments")
-		{
-			if (variable.rfind("m_state", 0) == 0)
-			{
-				// Starts with m_state
-				int no_of_digits = 3;
-				int digits[3];
-				int state_index;
-				int transition_index;
-				int parameter_index;
-
-				for (int i = 0; i < no_of_digits; i++)
-					digits[i] = 0;
-
-				extract_digits(variable, digits, 3);
-
-				state_index = digits[0] - 1;
-				transition_index = digits[1] - 1;
-				parameter_index = digits[2] - 1;
-
-				// This is tricky because the variable is stored in a gsl_vector
-				gsl_vector* p_gsl_v = p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->
-					p_hs->p_myofilaments->p_m_scheme->p_m_states[state_index]->p_transitions[transition_index]->rate_parameters;
-				
-				gsl_vector_set(p_gsl_v, parameter_index,
-					gsl_vector_get(p_gsl_v, parameter_index) + increment);
-			}
-
-			if (variable == "a_k_on")
-			{
-				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_hs->
-					p_myofilaments->myof_a_k_on);
-
-				*p_double = *p_double + increment;
-			}
-
-			if (variable == "a_k_off")
-			{
-				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_hs->
-					p_myofilaments->myof_a_k_off);
-
-				*p_double = *p_double + increment;
-			}
-
-			if (variable == "a_k_coop")
-			{
-				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_hs->
-					p_myofilaments->myof_a_k_coop);
-
-				*p_double = *p_double + increment;
-			}
-
-			if (variable == "int_pas_L")
-			{
-				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_hs->
-					p_myofilaments->myof_int_pas_L);
-
-				*p_double = *p_double + increment;
-			}
-		}
-		*/
 
 		make_adjustment(p_double, increment);
 	}
