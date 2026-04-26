@@ -153,6 +153,17 @@ def generate_model_files(json_analysis_file_string):
                         value = base_value * a['multipliers'][i]
                         
                         adj_model['FiberVent']['circulation'][a['variable']] = value
+
+                elif ((a['class'] == 'ventricle') and not (a['variable'] == 'initial_n_hs_factor') ):
+                    base_value = adj_model['FiberVent']['circulation']['ventricle'][a['variable']]
+
+                    value = base_value * a['multipliers'][i]
+
+                    adj_model['FiberVent']['circulation']['ventricle'][a['variable']] = value
+
+                elif ((a['class'] == 'ventricle') and (a['variable'] == 'initial_n_hs_factor') ):
+
+                    adj_model['FiberVent']['circulation']['ventricle'][a['variable']] = a['multipliers'][i]
                         
                 elif (a['class'] == 'aortic_valve'):
                     base_value = adj_model['FiberVent']['circulation']['ventricle']['valves']['aortic'][a['variable']]

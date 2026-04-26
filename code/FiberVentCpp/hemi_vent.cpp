@@ -134,7 +134,7 @@ void hemi_vent::initialise_simulation(void)
 
 	vent_n_hs = 1e9 * vent_circumference / p_muscle->muscle_length;
 
-	double vent_diam = vent_circumference / 3.14159;
+	double vent_diam = vent_circumference / M_PI; 
 
 	cout << "\n\nvent_circum: " << vent_circumference << " vent_z_scale: " << vent_z_scale <<
 		" vent_volume: " << p_parent_circulation->circ_slack_volume[0] <<
