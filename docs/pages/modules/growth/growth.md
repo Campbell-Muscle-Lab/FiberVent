@@ -14,9 +14,11 @@ FiberVent's hemi-elliptical ventricle can grow in two modes: concentric (wall th
 
 These two behaviors are defined in the growth object in the [model file](../../files/model/model_file.html).
 
-Here is an example.
+<details>
 
-```
+<summary>Click to view an example growth object</summary>
+
+```text
 "growth":
 {
     "master_rate": 1,
@@ -43,6 +45,8 @@ Here is an example.
     ]
 }
 ```
+
+</details>
 
 ## Concentric growth
 
