@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Baroreflex
-parent: Modules
+parent: Calculations
 has_children: false
 nav_order: 2
 ---
