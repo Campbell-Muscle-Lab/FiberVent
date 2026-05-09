@@ -1,0 +1,375 @@
+{
+    "layout":
+    {
+        "fig_width": 7,
+        "x_to_y_ratio": 0.75,
+        "padding_left": 0.85,
+        "padding_right": 0.9,
+        "padding_top": [0.6, 0.05],
+        "padding_bottom": [0.05, 0.5]
+    },
+    "x_display":{
+        "global_x_field": "time",
+        "label": "Time (s)",
+        "ticks": [50, 600]
+    },
+    "formatting":
+    {
+        "label_font_size": 9,
+        "x_axis_offset": 0.1,
+        "x_label_offset": -0.45,
+        "x_tick_length": 0.1,
+        "x_tick_label_vertical_offset": -0.12,
+        "y_axis_offset": 0.2,
+        "y_label_offset": -1.25,
+        "y_tick_length": 0.1,
+        "y_tick_label_horizontal_offset": -0.16,
+        "tick_font_size": 9,
+        "legend_font_size": 7,
+        "legend_alignment": "top_left",
+        "legend_position": [1.2, 1.0],
+        "envelope_no_of_bins": 20
+    },
+    "panels":
+    [
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Ventricular\npressure\n(mmHg)",
+                "ticks": [0, 140],
+                "series":
+                [
+                    {
+                        "field": "pressure_0",
+                        "style": "envelope",
+                        "processing": "sgolay"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Arterial\npressure\n(mmHg)",
+                "series":
+                [
+                    {
+                        "field": "pressure_1",
+                        "style": "envelope",
+                        "processing": "sgolay"
+                    },
+                    {
+                        "field": "baro_P_set",
+                        "field_label": "Baroreflex\nsetpoint"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Heart\nrate\n(bpm)",
+                "series":
+                [
+                    {
+                        "field": "hr_heart_rate_bpm"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Ejection\nfraction\n(%)",
+                "legend_title": "Reference",
+                "series":
+                [
+                    {
+                        "field": "vent_ejection_fraction",
+                        "scaling_factor": 100
+                    },
+                    {
+                        "reference": 55,
+                        "field_label": "55"
+                    }
+                ]
+            }
+        },
+
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Ventricular\ncavity\nvolume\n(ml)",
+                "series":
+                [
+                    {
+                        "field": "volume_0",
+                        "scaling_factor": 1000,
+                        "style": "envelope"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Wall\nthickness\n(mm)",
+                "legend_title": "Reference",
+                "series":
+                [
+                    {
+                        "field": "vent_wall_thickness",
+                        "scaling_factor": 1000,
+                        "style": "envelope"
+                    },
+                                        {
+                        "reference": 9,
+                        "field_label": "9"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Cytosolic\n[Ca^{2+}]\n(µm)",
+                "series":
+                [
+                    {
+                        "field": "memb_Ca_cytosol",
+                        "scaling_factor": 1e6,
+                        "style": "envelope"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Wall\nStress\n(kN m^{-2})",
+                "ticks": [0, 40],
+                "series":
+                [
+                    {
+                        "field": "fs_muscle_stress",
+                        "scaling_factor": 0.001,
+                        "style": "envelope",
+                        "processing": "sgolay"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Half-\nsarcomere\nlength\n(nm)",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "fs_hs_length",
+                        "style": "envelope"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Thin\nfilament\nstate\nproportions",
+                "series":
+                [
+                    {
+                        "field": "fs_hs_a_pop_0",
+                        "field_label": "Inactive",
+                        "style": "envelope"
+                    },
+                    {
+                        "field": "fs_hs_a_pop_1",
+                        "field_label": "Active",
+                        "style": "envelope"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Myosin\nstate\nproportions",
+                "series":
+                [
+                    {
+                        "field": "fs_hs_m_pop_0",
+                        "field_label": "OFF",
+                        "style": "envelope"
+                    },
+                    {
+                        "field": "fs_hs_m_pop_1",
+                        "field_label": "DRX",
+                        "style": "envelope"
+                    },
+                    {
+                        "field": "fs_hs_m_pop_2",
+                        "field_label": "Pre-force",
+                        "style": "envelope"
+                    },
+                    {
+                        "field": "fs_hs_m_pop_3",
+                        "field_label": "Post-force",
+                        "style": "envelope"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "MyBP-C\nstate\nproportions",
+                "series":
+                [
+                    {
+                        "field": "fs_hs_c_pop_0",
+                        "field_label": "No effect",
+                        "style": "envelope"
+                    },
+                    {
+                        "field": "fs_hs_c_pop_1",
+                        "field_label": "Stabilize OFF",
+                        "style": "envelope"
+                    },
+                    {
+                        "field": "fs_hs_c_pop_2",
+                        "field_label": "Bind actin",
+                        "style": "envelope"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "Titin\nstress\n(kN m^{-2})",
+                "series":
+                [
+                    {
+                        "field": "fs_hs_stress_titin",
+                        "scaling_factor": 0.001,
+                        "field_label": "Titin",
+                        "style": "envelope"
+                    },
+                    {
+                        "reference": 0.105,
+                        "field_label": "Set-point",
+                        "x_limits": [50, 1000]
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "Eccentric\ngrowth\nsignal",
+                "ticks": [-0.01, 0, 0.01],
+                "series":
+                [
+                    {
+                        "field": "gc_1_output"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "Half-\nsarcomeres\naround\nventricle\n(x10^3)",
+                "ticks": [150, 200],
+                "series":
+                [
+                    {
+                        "field": "vent_n_hs",
+                        "scaling_factor": 0.001
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "ATP\nconcentration\n(mM)",
+                "ticks": [5, 8],
+                "series":
+                [
+                    {
+                        "field": "muscle_ATP_concentration",
+                        "scaling_factor": 1000,
+                        "field_label": "[ATP]"
+                    },
+                    {
+                        "reference": 7,
+                        "field_label": "Set-point",
+                        "x_limits": [50, 1000]
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "Concentric\ngrowth\nsignal",
+                "ticks": [-0.01, 0, 0.01],
+                "series":
+                [
+                    {
+                        "field": "gc_2_output"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "Wall\nvolume\n(ml)",
+                "series":
+                [
+                    {
+                        "field": "vent_wall_volume",
+                        "scaling_factor": 1000
+                    }
+                ]
+            }
+        }
+    ],
+    "annotations":
+    [
+        {
+            "panel": "all",
+            "type": "vline",
+            "x_coord": 150
+        },
+        {
+            "panel": [1, 7, 13],
+            "type": "text",
+            "x_coord": 150,
+            "label_y_rel_coord": 1.4,
+            "label": "Increased destabilization\nof myosin OFF\nby MyBP-C"
+        }
+    ]
+}
