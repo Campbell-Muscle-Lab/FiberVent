@@ -1,0 +1,67 @@
+{
+    "FiberVent_setup": {
+        "FiberVentCpp_exe": {
+            "exe_file": "../../../code/fiberventcpp/bin/fiberventcpp.exe"
+        },
+        "model": {
+            "relative_to": "this_file",
+            "options_file": "../base/sim_options.json",
+            "manipulations": {
+                "base_model": "../base/base_model.json",
+                "generated_folder": "../generated/demonstrate_growth",
+                "adjustments": [
+                    {
+                        "class": "ventricle",
+                        "variable": "wall_volume",
+                        "multipliers": [
+                            1.1
+                        ]
+                    }
+                ]
+            }
+        },
+        "characterization": [
+            {
+                "type": "freeform",
+                "relative_to": "this_file",
+                "sim_folder": "../../sim_data/demonstrate_growth",
+                "run_mode": "default",
+                "m_n": 4,
+                "time_step_s": 0.001,
+                "sim_duration_s": 1000,
+                "no_of_conditions": 1,
+                "activation": [
+                    {
+                        "type": "baroreflex",
+                        "t_start_s": 50,
+                        "t_stop_s": 10000,
+                        "simulation": [
+                            1
+                        ]
+                    },
+                    {
+                        "type": "growth",
+                        "t_start_s": 250,
+                        "t_stop_s": 10000,
+                        "simulation": [
+                            1
+                        ]
+                    }
+                ],
+                "perturbation":
+                [
+                    {
+                        "class": "ventricle",
+                        "variable": "vent_n_hs",
+                        "t_start_s": 1,
+                        "t_stop_s": 2,
+                        "total_change": 25000.0,
+                        "simulation": [
+                            1
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

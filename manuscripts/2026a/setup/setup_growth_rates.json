@@ -1,0 +1,60 @@
+{
+    "FiberVent_setup":
+    {
+        "FiberVentCpp_exe":
+        {
+            "exe_file": "../../../code/fiberventcpp/bin/fiberventcpp.exe"
+        },
+        "model":
+        {
+            "relative_to": "this_file",
+            "options_file": "../base/sim_options.json",
+            "manipulations":
+            {
+                "base_model": "../base/base_model.json",
+                "generated_folder": "../generated/growth_rates",
+                "adjustments":
+                [
+                    {
+                        "class": "ventricle",
+                        "variable": "wall_volume",
+                        "multipliers": [1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2]
+                    },
+                    {
+                        "class": "growth_control",
+                        "variable": "master_rate",
+                        "multipliers": [0, 0.03, 0.07, 0.1, 0.3, 0.7, 1.0, 3.0, 7.0, 10.0]
+                    }
+                ]
+            }
+        },
+        "characterization":
+        [
+            {
+                "type": "freeform",
+                "relative_to": "this_file",
+                "sim_folder": "../../sim_data/growth_rates",
+                "run_mode": "default",
+                "m_n": 25,
+                "time_step_s": 0.001,
+                "sim_duration_s": 1100,
+                "no_of_conditions": 1,
+                "activation":
+                [
+                    {
+                        "type": "baroreflex",
+                        "t_start_s": 1,
+                        "t_stop_s": 10000,
+                        "simulation": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    },
+                    {
+                        "type": "growth",
+                        "t_start_s": 101,
+                        "t_stop_s": 10000,
+                        "simulation": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    }
+                ]
+            }
+        ]
+    }
+}

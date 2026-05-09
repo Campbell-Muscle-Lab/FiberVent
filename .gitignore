@@ -508,7 +508,11 @@ static
 _site/
 Gemfile.lock
 
+# FiberVent files
+
 # Demo files
 **/demo_files/**/*.*
 
+**/manuscripts/**/generated/**/*.*
+**/manuscripts/**/sim_data/**/*.*
 
