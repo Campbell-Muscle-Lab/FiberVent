@@ -1,0 +1,67 @@
+{
+    "FiberVent_setup": {
+        "FiberVentCpp_exe": {
+            "exe_file": "../../../code/fiberventcpp/bin/fiberventcpp.exe"
+        },
+        "model": {
+            "relative_to": "this_file",
+            "options_file": "../base/sim_options.json",
+            "manipulations": {
+                "base_model": "../base/base_model.json",
+                "generated_folder": "../generated/scan_arteriolar_resistance",
+                "adjustments": [
+                    {
+                        "class": "growth_control",
+                        "control_number": 1,
+                        "variable": "set_point",
+                        "multipliers": [
+                            1.0
+                        ]
+                    }
+                ]
+            }
+        },
+        "characterization": [
+            {
+                "type": "freeform",
+                "relative_to": "this_file",
+                "sim_folder": "../../sim_data/scan_arteriolar_resistance",
+                "run_mode": "default",
+                "m_n": 25,
+                "time_step_s": 0.001,
+                "sim_duration_s": 650,
+                "no_of_conditions": 1,
+                "activation": [
+                    {
+                        "type": "baroreflex",
+                        "t_start_s": 1,
+                        "t_stop_s": 10000,
+                        "simulation": [
+                            1
+                        ]
+                    },
+                    {
+                        "type": "growth",
+                        "t_start_s": 51,
+                        "t_stop_s": 10000,
+                        "simulation": [
+                            1
+                        ]
+                    }
+                ],
+                "perturbation": [
+                    {
+                        "class": "circulation",
+                        "variable": "resistance_4",
+                        "t_start_s": 150,
+                        "t_stop_s": 151,
+                        "total_change": -280.0,
+                        "simulation": [
+                            1
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

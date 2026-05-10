@@ -37,7 +37,6 @@
             "y_info":
             {
                 "label": "Ventricular\npressure\n(mmHg)",
-                "ticks": [0, 140],
                 "series":
                 [
                     {
