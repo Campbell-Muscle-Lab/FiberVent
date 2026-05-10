@@ -5,7 +5,7 @@
 <title>Qt SVG Document</title>
 <desc>MATLAB, The MathWorks, Inc. Version 26.1.0.3203278 R2026a</desc>
 <defs>
-<pattern id="fillPattern38_" x="246" y="173" width="8" height="53" patternUnits="userSpaceOnUse" >
+<pattern id="fillPattern47_" x="246" y="173" width="8" height="53" patternUnits="userSpaceOnUse" >
 <image xlink:href="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAgAAAA1CAYAAAB866r4AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAyElEQVQ4jc3VQRKCMAwF0NBGQEEdF97/fo6KotC0UOoN/t/aLW+STMmHKi7XIuA49PBfgOawx6DEHQYyE+DNY6CBVHCmZAZrMIgJX4VOMmEwukCA3zB4ao3Byx8wuPszaeGOGNzcBYNBThg8Cplh3HoMpkxahNwxQJb2wSqMucVAVvIu+pVU6BIBupC1ryMJjkskF8rCq0Z2skos3YHM0EQSvRYHS1QNfmhFvWUMJBJQWcKgMCA2Y7DFLwHpg0FOA6mwvCGgv4Mf6kVM0UA+xiMAAAAASUVORK5CYII=" x="0" y="0" width="8" height="53" />
 </pattern>
 </defs>
@@ -3218,7 +3218,7 @@ font-family="Helvetica" font-size="13" font-weight="400" font-style="normal"
 <polyline fill="none" vector-effect="none" points="254,226 254,173 " />
 </g>
 
-<g fill="url(#fillPattern38_)" stroke="none" transform="matrix(0.75,0,0,0.75,-3.78833,-12)"
+<g fill="url(#fillPattern47_)" stroke="none" transform="matrix(0.75,0,0,0.75,-3.78833,-12)"
 font-family="Helvetica" font-size="13" font-weight="400" font-style="normal" 
 >
 <path vector-effect="none" fill-rule="evenodd" d="M246,226 L254,226 L254,173 L246,173 L246,226"/>
@@ -3246,11 +3246,11 @@ font-family="Helvetica" font-size="10" font-weight="400" font-style="normal"
  >4000</text>
 </g>
 
-<g fill="#212121" fill-opacity="1" stroke="#212121" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0.75,0,0,0.75,200.212,133.5)"
+<g fill="#212121" fill-opacity="1" stroke="#212121" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0.75,0,0,0.75,203.962,133.5)"
 font-family="Helvetica" font-size="12" font-weight="400" font-style="normal" 
 >
 <text fill="#212121" fill-opacity="1" stroke="none" xml:space="preserve" x="0" y="0" font-family="Helvetica" font-size="12" font-weight="400" font-style="normal" 
- >    dPdt</text>
+ >dP/dt</text>
 </g>
 
 <g fill="#212121" fill-opacity="1" stroke="#212121" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0.75,0,0,0.75,191.212,146.25)"

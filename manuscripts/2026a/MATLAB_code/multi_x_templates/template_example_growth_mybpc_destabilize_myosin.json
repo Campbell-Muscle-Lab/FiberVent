@@ -155,7 +155,7 @@
             "y_info":
             {
                 "label": "Wall\nStress\n(kN m^{-2})",
-                "ticks": [0, 40],
+                "ticks": [0, 20],
                 "series":
                 [
                     {
@@ -273,7 +273,7 @@
                     {
                         "reference": 0.105,
                         "field_label": "Set-point",
-                        "x_limits": [50, 1000]
+                        "x_limits": [150, 1000]
                     }
                 ]
             }
@@ -323,7 +323,7 @@
                     {
                         "reference": 7,
                         "field_label": "Set-point",
-                        "x_limits": [50, 1000]
+                        "x_limits": [150, 1000]
                     }
                 ]
             }

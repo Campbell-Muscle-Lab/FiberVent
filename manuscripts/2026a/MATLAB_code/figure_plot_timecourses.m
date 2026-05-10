@@ -40,6 +40,10 @@ end
 % Cycle through the files
 for file_i = 1 : numel(options.data_files)
 
+    if (file_i ~= 5)
+        continue
+    end
+
     figure_multi_x( ...
         options.data_files(file_i), ...
         options.template_files(file_i), ...

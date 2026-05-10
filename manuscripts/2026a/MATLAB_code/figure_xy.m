@@ -201,7 +201,7 @@ function figure_xy(options)
     c.Limits = options.c_limits;
     c.Ticks = options.c_limits([1 end]);
     c.Position = c.Position + [0.11 0.04 0 -0.45];
-    c.Label.String = "    dP/dt" + newline + "(mmHg s^{-1})";
+    c.Label.String = "dP/dt" + newline + "(mmHg s^{-1})";
     c.Label.HorizontalAlignment = "center";
     c.Label.Rotation = 0;
     c.Label.FontSize = options.legend_font_size;;
@@ -370,7 +370,7 @@ function figure_xy(options)
     c2.Ticks = options.c_limits_2([1 end]);
     c2.FontSize = options.legend_font_size;
     c2.Position = c2.Position + [0.11 0.04 0 -0.45];
-    c2.Label.String = "    dP/dt" + newline + "(mmHg s^{-1})";
+    c2.Label.String = "dP/dt" + newline + "(mmHg s^{-1})";
     c2.Label.HorizontalAlignment = "center";
     c2.Label.Rotation = 0;
     c2.Label.FontSize = options.legend_font_size;;
@@ -409,8 +409,6 @@ function figure_xy(options)
             'title', options.title_strings{i}, ...
             'title_y_offset', options.title_y_offset);
     end
-    
-    
 
     % Add in annotations
 

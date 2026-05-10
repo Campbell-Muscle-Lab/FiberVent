@@ -60,7 +60,7 @@ function figure_xy(options)
 
         options.output_image_file = "../figures/fig_xy_fibrosis"
         % options.output_image_file = ""
-        options.output_image_types = ["svg", "png"];
+        options.output_image_types = ["png", "svg"];
 
     end
 
@@ -150,7 +150,7 @@ function figure_xy(options)
     c.Limits = options.c_limits;
     c.Ticks = options.c_limits([1 end]);
     c.Position = c.Position + [0.21 0.04 0 -0.52];
-    c.Label.String = "dP/dt" + newline + "(mmHg s^{-1})";
+    c.Label.String = "    dP/dt" + newline + "(mmHg s^{-1})";
     c.Label.HorizontalAlignment = "center";
     c.Label.Rotation = 0;
     c.Label.FontSize = options.legend_font_size;;
@@ -238,9 +238,11 @@ function figure_xy(options)
             
             disp(sprintf('Writing image to: %s', output_file_string));
     
-            exportgraphics(fig_options.figure_handle, ...
-                output_file_string, ...
-                Resolution = 1200, ...
-                ContentType = "vector");
+            % exportgraphics(fig_options.figure_handle, ...
+            %     output_file_string, ...
+            %     Resolution = 1200, ...
+            %     ContentType = "auto");
+
+            export_fig(f)
         end
     end
