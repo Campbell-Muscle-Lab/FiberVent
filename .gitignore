@@ -517,3 +517,4 @@ Gemfile.lock
 **/manuscripts/**/sim_data/**/*.*
 **/manuscripts/**/summaries/**/*.*
 **/manuscripts/**/figures/**/*.*
+!**/docs/**/manuscripts/**/figures/**/*.*
