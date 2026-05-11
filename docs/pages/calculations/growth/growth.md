@@ -15,7 +15,7 @@ FiberVent's hemi-elliptical ventricle can grow in two modes: concentric (wall th
 
 ## Concentric growth
 
-Concentric growth mimics myocytes add / removing sarcomeres and mitochondria in parallel by changeing the wall thickness $T$. The relevant differential equation is
+Concentric growth mimics myocytes add / removing sarcomeres and mitochondria in parallel by changing the wall thickness $T$. The relevant differential equation is
 
 $$
 \begin{equation}
@@ -86,4 +86,4 @@ $$
 where:
 
 + $F_{titin}$ is the stress in titin molecules
-+ $F_{titin_set}$ is a homestatic set-point
++ $F_{titin_set}$ is a homeostatic set-point

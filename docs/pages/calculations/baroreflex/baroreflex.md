@@ -56,7 +56,7 @@ $$
 \end{equation}
 $$
 
-where $i$ ranges from 1 to 7 and kcontrol,i is the rate constant for system i. These signals are also normalized and represent the status of cellular processes that are regulated by autonomic control. Each signal builds towards a saturating value of one when sympathetic drive exceeds parasympathetic drive (Bb > 0.5). If parasympathetic drive prevails, Bb is less than 0.5, and the control signals fall towards zero.
+where $i$ ranges from 1 to 7 and $k_{control,i}$ is the rate constant for system $i$. These signals are also normalized and represent the status of cellular processes that are regulated by autonomic control. Each signal builds towards a saturating value of one when sympathetic drive exceeds parasympathetic drive ($B_{b}$ > 0.5). If parasympathetic drive prevails, $B_{b}$ is less than 0.5, and the control signals fall towards zero.
 
 The final step in the algorithm used mapping functions $M_i$ to link the normalized control signals $B_{c,i}$ to actual parameter values. Each mapping function took the form
 
