@@ -255,11 +255,11 @@ def generate_model_files(json_analysis_file_string):
                         
                         fhs['extracellular_parameters'][a['variable']] = value
                         
-                    elif ((a['class'] == 'm_kinetics') or
-                        (a['class'] == 'c_kinetics')):
+                    elif ((a['variable'] == 'm_kinetics') or
+                        (a['a_variable'] == 'c_kinetics')):
     
                         kinetics_structure = adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
-                            ['model']['muscle']['half_sarcomere'][a['class']][a['isotype']-1]['state'][a['state']-1]
+                            ['model']['muscle']['half_sarcomere'][a['variable']][a['isotype']-1]['state'][a['state']-1]
     
                         # Special case for kinetics
                         if ('extension' in a):
@@ -283,7 +283,7 @@ def generate_model_files(json_analysis_file_string):
                             
                             # Insert back into model
                             adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
-                                ['model']['muscle']['half_sarcomere'][a['class']][a['isotype']-1]['state'][a['state']-1] = \
+                                ['model']['muscle']['half_sarcomere'][a['variable']][a['isotype']-1]['state'][a['state']-1] = \
                                     kinetics_structure                  
                    
                 else:

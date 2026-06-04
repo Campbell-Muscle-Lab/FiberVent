@@ -339,6 +339,12 @@ void perturbation::impose(double sim_time_s)
 
 		if (class_name == "membranes")
 		{
+			if (variable == "Ca_content")
+			{
+				// There is no Ca_content variable but we can adjust the SR content which is almost the same
+				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->p_membranes->memb_Ca_sr);
+			}
+
 			if (variable == "t_open")
 			{
 				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->p_membranes->memb_t_open_s);
@@ -347,6 +353,16 @@ void perturbation::impose(double sim_time_s)
 			if (variable == "k_leak")
 			{
 				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->p_membranes->memb_k_leak);
+			}
+
+			if (variable == "k_active")
+			{
+				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->p_membranes->memb_k_active);
+			}
+
+			if (variable == "k_serca")
+			{
+				p_double = &(p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->p_membranes->memb_k_serca);
 			}
 		}
 
@@ -488,7 +504,10 @@ void perturbation::impose(double sim_time_s)
 			}
 		}
 
-		make_adjustment(p_double, increment);
+		if (p_double != NULL)
+		{
+			make_adjustment(p_double, increment);
+		}
 	}
 }
 

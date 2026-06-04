@@ -86,10 +86,10 @@ function figure_xy(options)
 
         options.legend_font_size = 8
         options.legend_icon_column_width = 10
-        options.legend_position = [1.05 0.94]
+        options.legend_position = [1.05 1]
         options.legend_vertical_scale = 1.2
 
-        options.legend_position_2 = [1.05 0.91]
+        options.legend_position_2 = [1.05 1]
         options.legend_vertical_scale_2 = 1.3
 
         options.x_scaling_factor = 1000;
@@ -364,16 +364,16 @@ function figure_xy(options)
         Color = options.marker_face_color_mv_leak_clean);
     uistack(h_temp, 'bottom');
 
-
     c2 = colorbar;
     c2.Limits = options.c_limits_2;
     c2.Ticks = options.c_limits_2([1 end]);
     c2.FontSize = options.legend_font_size;
     c2.Position = c2.Position + [0.11 0.04 0 -0.45];
-    c2.Label.String = "dP/dt" + newline + "(mmHg s^{-1})";
+    % c2.Label.String = "dP/dt" + newline + "(mmHg s^{-1})";
+    c2.Label.String = {'dP/dt', '(mmHg s^{-1})'}
     c2.Label.HorizontalAlignment = "center";
     c2.Label.Rotation = 0;
-    c2.Label.FontSize = options.legend_font_size;;
+    c2.Label.FontSize = options.legend_font_size;
     c2.Label.Position([1 2]) = c2.Label.Position([1 2]) + [0.5 700];
 
     % Set the legends
