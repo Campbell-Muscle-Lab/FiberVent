@@ -509,17 +509,24 @@ def deduce_freeform_properties(json_analysis_file_string,
                 oh['templated_images'] = []
                 for (i,template_f) in enumerate(characterization_struct['template_files']):
                     tf = dict()
-                    tf['relative_to'] = 'this_file'
-                    tf['template_file_string'] = os.path.join(base_dir,
-                                                              template_f)
-                    tf['output_file_string'] = os.path.join(sim_output_folder,
-                                                            'output_%i_%i' % (sim_counter, i+1))
+                    tf['relative_to'] = 'False'
+                    tf['template_file_string'] = str(Path(os.path.join(base_dir,
+                                                              template_f)).resolve().absolute())
+                    tf['output_file_string'] = str(Path(os.path.join(sim_output_folder,
+                                                            'output_%i_%i' % (sim_counter, i+1))).
+                                                            resolve().absolute())
                     tf['output_image_formats'] = ['png', 'svg']
                     oh['templated_images'].append(tf)
                 
                 # Now make the file
-                new_output_handler_file_string = os.path.join(sim_input_folder,
-                                                              'output_handler.json')
+                new_output_handler_file_string = str(Path(os.path.join(sim_input_folder,
+                                                              'output_handler.json')).
+                                                              resolve().absolute())
+
+                # Test
+                print('new_output_handler_file_string: %s' % new_output_handler_file_string)
+                print(oh)
+                
                 
                 with open(new_output_handler_file_string, 'w') as f:
                     json.dump(oh, f, indent=4)
