@@ -1,0 +1,29 @@
+{
+    "FiberVent_setup": {
+        "FiberVentCpp_exe": {
+            "exe_file": "../../../code/fiberventcpp/bin/fiberventcpp.exe"
+        },
+        "model":
+        {
+            "relative_to": "this_file",
+            "options_file": "../base/sim_options.json",
+            "model_files": ["../base/base_mouse_model.json"]
+        },
+        "characterization":
+        [
+            {
+                "type": "freeform",
+                "relative_to": "this_file",
+                "sim_folder": "../sim_data/",
+                "run_mode": "default",
+                "m_n": 4,
+                "time_step_s": 0.0001,
+                "sim_duration_s": 0.3,
+                "no_of_conditions": 1,
+                "template_files": ["../templates/template_summary.json"],
+                "output_types": ["png"]
+            }
+        ]
+        
+    }
+}

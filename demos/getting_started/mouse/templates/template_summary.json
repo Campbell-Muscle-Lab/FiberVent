@@ -1,0 +1,746 @@
+{
+    "layout":
+    {
+        "fig_width": 20,
+        "top_margin": 0.25,
+        "left_margin": 0,
+        "right_margin": 0,
+        "panel_height": 1.0,
+        "grid_wspace": 3,
+        "grid_hspace": 0.35
+    },
+    "x_display":{
+        "global_x_field": "time",
+        "label": "Time (s)",
+        "xticks": [4, 15]
+
+    },
+    "processing":{
+        "line_rel_width": 0.01
+    },
+    "formatting":
+    {
+        "x_label_fontsize": 9,
+        "y_label_fontsize": 9,
+        "y_label_offset": -0.25,
+        "tick_fontsize": 9,
+        "legend_fontsize": 7,
+        "legend_bbox_to_anchor": [1.05, 1.0],
+        "legend_frame_alpha": 0.65,
+        "patch_alpha": 0.3
+    },
+    "panels":
+    [
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Ventricular\npressure\n(mmHg)",
+                "series":
+                [
+                    {
+                        "field": "pressure_0",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Arterial\npressure\n(mmHg)",
+                "series":
+                [
+                    {
+                        "field": "pressure_2",
+                        "style": "line",
+                        "field_label": "Pressure"
+                    },
+                    {
+                        "field": "baro_P_set",
+                        "field_label": "Baroreflex\nsetpoint"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Filling\npressure\n(mmHg)",
+                "series":
+                [
+                    {
+                        "field": "pressure_6",
+                        "field_label": "Veins",
+                        "style": "line"
+                    }                    
+                ]
+            }
+        },
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Ventricular\ncavity\nvolume\n(liters)",
+                "series":
+                [
+                    {
+                        "field": "volume_0",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 0.15,
+                        "field_label": "0.15"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Wall\nthickness\n(mm)",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "vent_wall_thickness",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 0.006,
+                        "field_label": "6"
+                    },
+                    {
+                        "reference": 0.012,
+                        "field_label": "12"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 1,
+            "y_info":
+            {
+                "label": "Chamber\nradius\n(m)",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "vent_chamber_radius",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 0.028,
+                        "field_label": "28 mm"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Baroreflex",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "baro_active",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Growth",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "growth_active",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Heart\nrate\n(bpm)",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "hr_heart_rate_bpm",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Ejection\nfraction",
+                "series":
+                [
+                    {
+                        "field": "vent_ejection_fraction",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 0.5,
+                        "field_label": 50
+                    },
+                    {
+                        "reference": 0.6,
+                        "field_label": 60
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Cardiac\noutput\n(liters min$^{-1})$",
+                "series":
+                [
+                    {
+                        "field": "vent_cardiac_output",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 4,
+                        "field_label": "4"
+                    },
+                    {
+                        "reference": 5,
+                        "field_label": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 2,
+            "y_info":
+            {
+                "label": "Prop fibrosis",
+                "series":
+                [
+                    {
+                        "field": "muscle_prop_fibrosis",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "Half\nsarcomere\nlength\n(nm)",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "fs_hs_length"
+                    },
+                    {
+                        "reference": 1150,
+                        "field_label": "1150"
+                    },
+                    {
+                        "reference": 950,
+                        "field_label": "950"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "Passive\nStress\n(N m$^{-2}$)",
+                "series":
+                [
+                    {
+                        "field": "fs_hs_stress_titin",
+                        "field_label": "Titin",
+                        "style": "line"
+                    },
+                    {
+                        "field": "fs_hs_stress_extracellular",
+                        "field_label": "Collagen",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 250,
+                        "field_label": "250"
+                    },
+                    {
+                        "reference": 0,
+                        "field_label": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "Thin filament",
+                "ticks": [0, 1],
+                "series":
+                [
+                    {
+                        "field": "fs_hs_a_pop_0",
+                        "field_label": "OFF",
+                        "style": "line"
+                    },
+                    {
+                        "field": "fs_hs_a_pop_1",
+                        "field_label": "ON",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "Thick filament",
+                "ticks": [0, 1],
+                "series":
+                [
+                    {
+                        "field": "fs_hs_m_pop_0",
+                        "field_label": "SRX",
+                        "style": "line"
+                    },
+                    {
+                        "field": "fs_hs_m_pop_1",
+                        "field_label": "DRX",
+                        "style": "line"
+                    },
+                    {
+                        "field": "fs_hs_m_pop_2",
+                        "field_label": "PRE",
+                        "style": "line"
+                    },
+                    {
+                        "field": "fs_hs_m_pop_3",
+                        "field_label": "POST",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 3,
+            "y_info":
+            {
+                "label": "C_prot",
+                "ticks": [0, 1],
+                "series":
+                [
+                    {
+                        "field": "fs_hs_c_pop_0",
+                        "field_label": "Null",
+                        "style": "line"
+                    },
+                    {
+                        "field": "fs_hs_c_pop_1",
+                        "field_label": "Stabilizes SRX",
+                        "style": "line"
+                    },
+                    {
+                        "field": "fs_hs_c_pop_2",
+                        "field_label": "Binds actin",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 4,
+            "y_info":
+            {
+                "label": "[Ca]\n(M)",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "memb_Ca_cytosol",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 4,
+            "y_info":
+            {
+                "label": "Ca flux",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "memb_J_release",
+                        "field_label": "J_release",
+                        "style": "line"
+                    },
+                    {
+                        "field": "memb_J_uptake",
+                        "field_label": "J_uptake",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 4,
+            "y_info":
+            {
+                "label": "Ca flux",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "memb_J_release",
+                        "field_label": "J_release",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 4,
+            "y_info":
+            {
+                "label": "Ca flux",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "memb_J_uptake",
+                        "field_label": "J_uptake",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 4,
+            "y_info":
+            {
+                "label": "Release",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "memb_activation",
+                        "field_label": "memb_activation",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 5,
+            "y_info":
+            {
+                "label": "ATP flux\n(Moles\n(liter muscle)$^{-1}$ s$^{-1}$)",
+                "series":
+                [
+                    {
+                        "field": "muscle_ATP_used_myof_per_liter_per_s",
+                        "field_label": "Myofilaments",
+                        "style": "line"
+                    },
+                    {
+                        "field": "muscle_ATP_used_memb_per_liter_per_s",
+                        "field_label": "Membranes",
+                        "style": "line"
+                    },
+                    {
+                        "field": "muscle_ATP_generated_per_liter_per_s",
+                        "field_label": "Mitochondria",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 0,
+                        "field_label": "Zero",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 5,
+            "y_info":
+            {
+                "label": "ATP flux\n(Moles\n(liter muscle)$^{-1}$ s$^{-1}$)",
+                "series":
+                [
+                    {
+                        "field": "muscle_ATP_used_memb_per_liter_per_s",
+                        "field_label": "Membranes",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 0,
+                        "field_label": "Zero",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 5,
+            "y_info":
+            {
+                "label": "ATP\nconcentration",
+                "series":
+                [
+                    {
+                        "field": "muscle_ATP_concentration",
+                        "field_label": "ATP",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 0.007,
+                        "field_label": "Setpoint"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 5,
+            "y_info":
+            {
+                "label": "Energy",
+                "series":
+                [
+                    {
+                        "field": "vent_stroke_work_J",
+                        "field_label": "stroke_work_J",
+                        "style": "line"
+                    },
+                    {
+                        "field": "vent_stroke_energy_used_J",
+                        "field_label": "stroke_energy_used_J",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 0,
+                        "field_label": "Zero",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 5,
+            "y_info":
+            {
+                "label": "Efficiency",
+                "series":
+                [
+                    {
+                        "field": "vent_efficiency",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 6,
+            "y_info":
+            {
+                "label": "Growth\nactive",
+                "series":
+                [
+                    {
+                        "field": "growth_active",
+                        "style": "line"
+                    },
+                    {
+                        "reference": 0,
+                        "field_label": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 6,
+            "y_info":
+            {
+                "label": "Eccentric\nsignal",
+                "series":
+                [
+                    {
+                        "field": "gc_1_prop_signal",
+                        "style": "line",
+                        "field_label": "Prop"
+                    },
+                    {
+                        "field": "gc_1_deriv_signal",
+                        "style": "line",
+                        "field_label": "Deriv"
+                    },
+                    {
+                        "reference": 0,
+                        "field_label": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 6,
+            "y_info":
+            {
+                "label": "Eccentric\noutput",
+                "series":
+                [
+                    {
+                        "field": "gc_1_prop_output",
+                        "style": "line",
+                        "field_label": "Prop"
+                    },
+                    {
+                        "field": "gc_1_deriv_output",
+                        "style": "line",
+                        "field_label": "Deriv"
+                    },
+                    {
+                        "field": "gc_1_output",
+                        "style": "line",
+                        "field_label": "Total"
+                    },
+                    {
+                        "reference": 0,
+                        "field_label": "0"
+                    }
+                ]
+            }
+        },
+        
+        {
+            "column": 6,
+            "y_info":
+            {
+                "label": "Concentric\nsignal",
+                "series":
+                [
+                    {
+                        "field": "gc_2_prop_signal",
+                        "style": "line",
+                        "field_label": "Prop"
+                    },
+                    {
+                        "field": "gc_2_deriv_signal",
+                        "style": "line",
+                        "field_label": "Deriv"
+                    },
+                    {
+                        "reference": 0,
+                        "field_label": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 6,
+            "y_info":
+            {
+                "label": "Concentric\noutput",
+                "series":
+                [
+                    {
+                        "field": "gc_2_prop_output",
+                        "style": "line",
+                        "field_label": "Prop"
+                    },
+                    {
+                        "field": "gc_2_deriv_output",
+                        "style": "line",
+                        "field_label": "Deriv"
+                    },
+                    {
+                        "field": "gc_2_output",
+                        "style": "line",
+                        "field_label": "Total"
+                    },
+                    {
+                        "reference": 0,
+                        "field_label": "0"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 7,
+            "y_info":
+            {
+                "label": "Flow",
+                "series":
+                [
+                    {
+                        "field": "flow_0",
+                        "style": "line",
+                        "field_label": "Flow 0"
+                    },
+                    {
+                        "field": "flow_1",
+                        "style": "line",
+                        "field_label": "Flow 1"
+                    },
+                    {
+                        "reference": 0,
+                        "style": "line",
+                        "field_label": "Zero"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 7,
+            "y_info":
+            {
+                "label": "Wall\nvolume\n(liters)",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "vent_wall_volume",
+                        "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 7,
+            "y_info":
+            {
+                "label": "Vent\n_hs",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "vent_n_hs",
+                        "style": "line"
+                    }
+                ]
+            }
+        }
+    ]
+}
