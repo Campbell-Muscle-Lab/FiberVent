@@ -511,10 +511,12 @@ Gemfile.lock
 # FiberVent files
 
 # Demo files
-**/demo_files/**/*.*
+**/demos/**/sim_data/**/*.*
+
 
 **/manuscripts/**/generated/**/*.*
 **/manuscripts/**/sim_data/**/*.*
 **/manuscripts/**/summaries/**/*.*
 **/manuscripts/**/figures/**/*.*
+
 !**/docs/**/manuscripts/**/figures/**/*.*
