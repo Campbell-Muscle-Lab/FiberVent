@@ -286,12 +286,12 @@
                                                         {
                                                             "new_state": 2,
                                                             "rate_type": "constant",
-                                                            "rate_parameters": [ 100 ]
+                                                            "rate_parameters": [ 0 ]
                                                         },
                                                         {
                                                             "new_state": 3,
                                                             "rate_type": "gaussian_pc",
-                                                            "rate_parameters": [ 100, 0.001],
+                                                            "rate_parameters": [ 0, 0.001],
                                                             "xrate_parameters": [ 0, 0.001]
                                                         }
                                                     ]

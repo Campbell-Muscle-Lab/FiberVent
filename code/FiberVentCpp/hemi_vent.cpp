@@ -138,7 +138,8 @@ void hemi_vent::initialise_simulation(void)
 
 	cout << "\n\nvent_circum: " << vent_circumference << " vent_z_scale: " << vent_z_scale <<
 		" vent_volume: " << p_parent_circulation->circ_slack_volume[0] <<
-		" vent_diam:" << vent_diam << "\n\n\n";
+		" vent_diam:" << vent_diam << 
+		" vent_nh_hs:" << vent_n_hs <<"\n\n\n";
 
 	// Add fields
 	p_cmv_results_beat->add_results_field("vent_wall_volume", &vent_wall_volume);

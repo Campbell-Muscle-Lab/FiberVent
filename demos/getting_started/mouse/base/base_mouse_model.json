@@ -4,18 +4,18 @@
         "version": "2.2.0",
         "circulation":
         {
-            "blood_volume": 0.002,
+            "blood_volume": 0.0016,
             "compartments":
             {
                 "resistance":
                 [
-                    0.005,
-                    0.01,
-                    0.02,
-                    0.35,
-                    0.125,
-                    0.025,
-                    0.01
+                    5000,
+                    10000,
+                    20000,
+                    250000,
+                    125000,
+                    25000,
+                    10000
                 ],
                 "compliance":
                 [
@@ -29,7 +29,7 @@
                 ],
                 "slack_volume":
                 [
-                    25e-6,
+                    2e-5,
                     0.2e-6,
                     0.2e-4,
                     0.1e-4,
@@ -51,7 +51,7 @@
             "ventricle":
             {
                 "wall_density": 1055,
-                "wall_volume": 1.2e-3,
+                "wall_volume": 1e-4,
                 "z_scale": 4,
                 "z_exp": 0.75,
                 "valves":
@@ -59,15 +59,15 @@
                     "aortic":
                     {
                         "name": "aortic",
-                        "mass": 0.0005,
-                        "eta": 0.005,
+                        "mass": 0.00005,
+                        "eta": 0.00005,
                         "k": 0.01
                     },
                     "mitral":
                     {
                         "name": "mitral",
-                        "mass": 0.005,
-                        "eta": 0.005,
+                        "mass": 0.0005,
+                        "eta": 0.00005,
                         "k": 0.001
                     }
                 },
@@ -80,7 +80,7 @@
                     "delta_G_ATP": 45000,
                     "heart_rate":
                     {
-                        "t_RR_interval_s": 0.09
+                        "t_RR_interval_s": 0.1
                     },
                     "membranes":
                     {
@@ -112,7 +112,7 @@
                                 "series_component":
                                 {
                                     "sc_k_stiff": 1e4,
-                                    "sc_eta": 1000.0
+                                    "sc_eta": 1.0
                                 },
                                 "half_sarcomere":
                                 {
@@ -125,7 +125,7 @@
                                     },
                                     "lattice_parameters":
                                     {
-                                        "viscosity": 1e-1
+                                        "viscosity": 1e-3
                                     },
                                     "thick_structure":
                                     {
@@ -157,8 +157,8 @@
                                     {
                                         "a_no_of_bs_states": 2,
                                         "a_k_stiff": 10,
-                                        "a_k_on": 2e8,
-                                        "a_k_off": 200,
+                                        "a_k_on": 2e9,
+                                        "a_k_off": 1500,
                                         "a_k_coop": 20
                                     },
                                     "thick_parameters":
@@ -168,16 +168,15 @@
                                     "titin_parameters":
                                     {
                                         "t_passive_mode": "exponential",
-                                        "t_k_stiff": 4e-6,
+                                        "t_k_stiff": 2e-6,
                                         "t_offset": 5,
-                                        "t_sigma": 1e-7,
+                                        "t_sigma": 5e-8,
                                         "t_L": 25
                                     },
                                     "extracellular_parameters":
                                     {
                                         "e_passive_mode": "exponential",
-                                        "xe_sigma": 150,
-                                        "e_sigma": 100,
+                                        "e_sigma": 50,
                                         "e_L": 35,
                                         "e_slack_length": 950
                                     },
@@ -200,7 +199,7 @@
                                                         {
                                                             "new_state": 2,
                                                             "rate_type": "force_and_mybpc_dependent",
-                                                            "rate_parameters": [ 10, 2000, 1, 1, 0.2, 0.2, 1, 1]
+                                                            "rate_parameters": [ 100, 2000, 1, 1, 0.2, 0.2, 1, 1]
                                                         }
                                                     ]
                                                 },
@@ -213,12 +212,12 @@
                                                         {
                                                             "new_state": 1,
                                                             "rate_type": "constant",
-                                                            "rate_parameters": [ 100 ]
+                                                            "rate_parameters": [ 1000 ]
                                                         },
                                                         {
                                                             "new_state": 3,
                                                             "rate_type": "gaussian_hsl",
-                                                            "rate_parameters": [ 0]
+                                                            "rate_parameters": [ 1500]
                                                         }
                                                     ]
                                                 },
@@ -231,12 +230,12 @@
                                                         {
                                                             "new_state": 2,
                                                             "rate_type": "poly",
-                                                            "rate_parameters": [ 150, 1, 4]
+                                                            "rate_parameters": [ 1000, 1, 4]
                                                         },
                                                         {
                                                             "new_state": 4,
                                                             "rate_type": "constant",
-                                                            "rate_parameters": [ 350 ]
+                                                            "rate_parameters": [ 3500 ]
                                                         }
                                                     ]
                                                 },
@@ -250,7 +249,7 @@
                                                             "new_state": 2,
                                                             "uses_ATP": 1,
                                                             "rate_type": "exp_wall",
-                                                            "rate_parameters": [ 100, 0.5, 4, 7]
+                                                            "rate_parameters": [ 1000, 0.5, 4, 7]
                                                         }
                                                     ]
                                                 }
@@ -286,13 +285,12 @@
                                                         {
                                                             "new_state": 2,
                                                             "rate_type": "constant",
-                                                            "rate_parameters": [ 100 ]
+                                                            "rate_parameters": [ 0 ]
                                                         },
                                                         {
                                                             "new_state": 3,
                                                             "rate_type": "gaussian_pc",
-                                                            "rate_parameters": [ 100, 0.001],
-                                                            "xrate_parameters": [ 0, 0.001]
+                                                            "rate_parameters": [ 0, 0.001]
                                                         }
                                                     ]
                                                 },

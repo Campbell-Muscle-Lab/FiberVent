@@ -12,8 +12,7 @@
     "x_display":{
         "global_x_field": "time",
         "label": "Time (s)",
-        "xticks": [4, 15]
-
+        "ticks": [0.7, 1]
     },
     "processing":{
         "line_rel_width": 0.01
@@ -89,10 +88,6 @@
                     {
                         "field": "volume_0",
                         "style": "line"
-                    },
-                    {
-                        "reference": 0.15,
-                        "field_label": "0.15"
                     }
                 ]
             }
@@ -108,14 +103,6 @@
                     {
                         "field": "vent_wall_thickness",
                         "style": "line"
-                    },
-                    {
-                        "reference": 0.006,
-                        "field_label": "6"
-                    },
-                    {
-                        "reference": 0.012,
-                        "field_label": "12"
                     }
                 ]
             }
@@ -131,10 +118,6 @@
                     {
                         "field": "vent_chamber_radius",
                         "style": "line"
-                    },
-                    {
-                        "reference": 0.028,
-                        "field_label": "28 mm"
                     }
                 ]
             }
@@ -216,14 +199,6 @@
                     {
                         "field": "vent_cardiac_output",
                         "style": "line"
-                    },
-                    {
-                        "reference": 4,
-                        "field_label": "4"
-                    },
-                    {
-                        "reference": 5,
-                        "field_label": "5"
                     }
                 ]
             }
@@ -738,6 +713,27 @@
                     {
                         "field": "vent_n_hs",
                         "style": "line"
+                    }
+                ]
+            }
+        },
+        {
+            "column": 7,
+            "y_info":
+            {
+                "label": "Valves",
+                "scaling_type": "close_fit",
+                "series":
+                [
+                    {
+                        "field": "mitral_valve_pos",
+                        "style": "line",
+                        "field_label": "Mitral"
+                    },
+                    {
+                        "field": "aortic_valve_pos",
+                        "style": "line",
+                        "field_label": "Aortic"
                     }
                 ]
             }
