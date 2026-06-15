@@ -1,44 +1,37 @@
 {
-    "FiberVent":
-    {
+    "FiberVent": {
         "version": "2.2.0",
-        "circulation":
-        {
+        "circulation": {
             "blood_volume": 0.0016,
-            "compartments":
-            {
-                "resistance":
-                [
-                    5000,
-                    10000,
-                    20000,
-                    250000,
-                    125000,
-                    25000,
-                    10000
+            "compartments": {
+                "resistance": [
+                    1250.0,
+                    10000.0,
+                    20000.0,
+                    250000.0,
+                    125000.0,
+                    25000.0,
+                    10000.0
                 ],
-                "compliance":
-                [
+                "compliance": [
                     0,
-                    2e-7,
-                    4e-7,
-                    5e-7,
-                    5e-8,
-                    1.5e-5,
-                    4e-5
+                    2e-07,
+                    4e-07,
+                    5e-07,
+                    5e-08,
+                    1.5e-05,
+                    4e-05
                 ],
-                "slack_volume":
-                [
-                    2e-5,
-                    0.2e-6,
-                    0.2e-4,
-                    0.1e-4,
-                    0.1e-4,
-                    0.1e-3,
-                    0.8e-3
+                "slack_volume": [
+                    2e-05,
+                    2e-07,
+                    2e-05,
+                    1e-05,
+                    1e-05,
+                    0.0001,
+                    0.0008
                 ],
-                "inertance":
-                [
+                "inertance": [
                     0.0,
                     0.0,
                     100,
@@ -48,42 +41,35 @@
                     100
                 ]
             },
-            "ventricle":
-            {
+            "ventricle": {
                 "wall_density": 1055,
-                "wall_volume": 1e-4,
+                "wall_volume": 0.0001,
                 "z_scale": 4,
                 "z_exp": 0.75,
-                "valves":
-                {
-                    "aortic":
-                    {
+                "valves": {
+                    "aortic": {
                         "name": "aortic",
-                        "mass": 0.00005,
+                        "mass": 5e-05,
                         "eta": 0.0005,
                         "k": 0.01
                     },
-                    "mitral":
-                    {
+                    "mitral": {
                         "name": "mitral",
                         "mass": 0.0005,
                         "eta": 0.0005,
                         "k": 0.001
                     }
                 },
-                "myocardium":
-                {
+                "myocardium": {
                     "reference_hs_length": 1100,
                     "initial_ATP_concentration": 0.007,
                     "prop_fibrosis": 0.1,
                     "prop_myofilaments": 0.6,
                     "delta_G_ATP": 45000,
-                    "heart_rate":
-                    {
+                    "heart_rate": {
                         "t_RR_interval_s": 0.1
                     },
-                    "membranes":
-                    {
+                    "membranes": {
                         "Ca_content": 0.001,
                         "k_leak": 0.006,
                         "k_active": 0.82,
@@ -92,43 +78,33 @@
                         "SERCA_Ca_per_ATP": 2,
                         "SERCA_ATPase_excess_Ca_factor": 100
                     },
-                    "mitochondria":
-                    {
+                    "mitochondria": {
                         "ATP_generation_rate": 1.6
-                    },                    
-                    "contraction":
-                    {
+                    },
+                    "contraction": {
                         "model_type": "FiberSim",
-                        "model":
-                        {
-                            "version":
-                            {
-                            "version": "2.1.0"
+                        "model": {
+                            "version": {
+                                "version": "2.1.0"
                             },
-                            "muscle":
-                            {
+                            "muscle": {
                                 "no_of_half_sarcomeres": 1,
                                 "no_of_myofibrils": 1,
-                                "series_component":
-                                {
-                                    "sc_k_stiff": 1e4,
+                                "series_component": {
+                                    "sc_k_stiff": 10000.0,
                                     "sc_eta": 1.0
                                 },
-                                "half_sarcomere":
-                                {
-                                    "material":
-                                    {
+                                "half_sarcomere": {
+                                    "material": {
                                         "prop_fibrosis": 0.1,
                                         "initial_hs_length": 1000,
                                         "prop_myofilaments": 0.6,
-                                        "m_filament_density": 0.407e15
+                                        "m_filament_density": 407000000000000.0
                                     },
-                                    "lattice_parameters":
-                                    {
-                                        "viscosity": 1e-3
+                                    "lattice_parameters": {
+                                        "viscosity": 0.001
                                     },
-                                    "thick_structure":
-                                    {
+                                    "thick_structure": {
                                         "m_n": 100,
                                         "m_crowns_per_filament": 54,
                                         "m_hubs_per_crown": 3,
@@ -139,8 +115,7 @@
                                         "m_inter_crown_twist": 40.0,
                                         "m_within_hub_twist": 20.0
                                     },
-                                    "thin_structure":
-                                    {
+                                    "thin_structure": {
                                         "a_strands_per_filament": 2,
                                         "a_regulatory_units_per_strand": 27,
                                         "a_bs_per_unit": 7,
@@ -148,58 +123,60 @@
                                         "a_inter_bs_twist": 25.7143,
                                         "a_bs_per_node": 2
                                     },
-                                    "titin_structure":
-                                    {
+                                    "titin_structure": {
                                         "t_attach_a_node": 21,
                                         "t_attach_m_node": 54
                                     },
-                                    "thin_parameters":
-                                    {
+                                    "thin_parameters": {
                                         "a_no_of_bs_states": 2,
                                         "a_k_stiff": 10,
-                                        "a_k_on": 2e9,
+                                        "a_k_on": 2000000000.0,
                                         "a_k_off": 1500,
                                         "a_k_coop": 20
                                     },
-                                    "thick_parameters":
-                                    {
+                                    "thick_parameters": {
                                         "m_k_stiff": 10
                                     },
-                                    "titin_parameters":
-                                    {
+                                    "titin_parameters": {
                                         "t_passive_mode": "exponential",
-                                        "t_k_stiff": 2e-6,
+                                        "t_k_stiff": 2e-06,
                                         "t_offset": 5,
-                                        "t_sigma": 5e-8,
+                                        "t_sigma": 5e-08,
                                         "t_L": 25
                                     },
-                                    "extracellular_parameters":
-                                    {
+                                    "extracellular_parameters": {
                                         "e_passive_mode": "exponential",
                                         "e_sigma": 50,
                                         "e_L": 35,
                                         "e_slack_length": 950
                                     },
-                                    "m_parameters":
-                                    {
+                                    "m_parameters": {
                                         "m_k_cb": 0.001,
-                                        "m_isotype_proportions": [ 1 ]
+                                        "m_isotype_proportions": [
+                                            1
+                                        ]
                                     },
-                                    "m_kinetics":
-                                    [
+                                    "m_kinetics": [
                                         {
-                                            "state":
-                                            [
+                                            "state": [
                                                 {
                                                     "number": 1,
                                                     "type": "S",
                                                     "extension": 0,
-                                                    "transition":
-                                                    [
+                                                    "transition": [
                                                         {
                                                             "new_state": 2,
                                                             "rate_type": "force_and_mybpc_dependent",
-                                                            "rate_parameters": [ 100, 2000, 1, 1, 0.2, 0.2, 1, 1]
+                                                            "rate_parameters": [
+                                                                100,
+                                                                2000,
+                                                                1,
+                                                                1,
+                                                                0.2,
+                                                                0.2,
+                                                                1,
+                                                                1
+                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -207,17 +184,20 @@
                                                     "number": 2,
                                                     "type": "D",
                                                     "extension": 0,
-                                                    "transition":
-                                                    [
+                                                    "transition": [
                                                         {
                                                             "new_state": 1,
                                                             "rate_type": "constant",
-                                                            "rate_parameters": [ 1000 ]
+                                                            "rate_parameters": [
+                                                                1000
+                                                            ]
                                                         },
                                                         {
                                                             "new_state": 3,
                                                             "rate_type": "gaussian_hsl",
-                                                            "rate_parameters": [ 1000]
+                                                            "rate_parameters": [
+                                                                1000
+                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -225,17 +205,22 @@
                                                     "number": 3,
                                                     "type": "A",
                                                     "extension": 0.0,
-                                                    "transition":
-                                                    [
+                                                    "transition": [
                                                         {
                                                             "new_state": 2,
                                                             "rate_type": "poly",
-                                                            "rate_parameters": [ 1000, 1, 4]
+                                                            "rate_parameters": [
+                                                                1000,
+                                                                1,
+                                                                4
+                                                            ]
                                                         },
                                                         {
                                                             "new_state": 4,
                                                             "rate_type": "constant",
-                                                            "rate_parameters": [ 3500 ]
+                                                            "rate_parameters": [
+                                                                3500
+                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -243,21 +228,24 @@
                                                     "number": 4,
                                                     "type": "A",
                                                     "extension": 5.0,
-                                                    "transition":
-                                                    [
+                                                    "transition": [
                                                         {
                                                             "new_state": 2,
                                                             "uses_ATP": 1,
                                                             "rate_type": "exp_wall",
-                                                            "rate_parameters": [ 1000, 0.5, 4, 7]
+                                                            "rate_parameters": [
+                                                                1000,
+                                                                0.5,
+                                                                4,
+                                                                7
+                                                            ]
                                                         }
                                                     ]
                                                 }
                                             ]
                                         }
                                     ],
-                                    "mybpc_structure":
-                                    {
+                                    "mybpc_structure": {
                                         "c_thick_proximal_node": 10,
                                         "c_thick_stripes": 9,
                                         "c_thick_node_spacing": 3,
@@ -266,31 +254,34 @@
                                         "c_inter_stripe_twist": 0.0,
                                         "c_sd_angle_deviation": 30
                                     },
-                                    "mybpc_parameters":
-                                    {
+                                    "mybpc_parameters": {
                                         "c_k_stiff": 0.0001,
-                                        "c_isotype_proportions": [ 1 ]
+                                        "c_isotype_proportions": [
+                                            1
+                                        ]
                                     },
-                                    "c_kinetics":
-                                    [
+                                    "c_kinetics": [
                                         {
-                                            "state":
-                                            [
+                                            "state": [
                                                 {
                                                     "number": 1,
                                                     "type": "D",
                                                     "extension": 0,
-                                                    "transition":
-                                                    [
+                                                    "transition": [
                                                         {
                                                             "new_state": 2,
                                                             "rate_type": "constant",
-                                                            "rate_parameters": [ 0 ]
+                                                            "rate_parameters": [
+                                                                0
+                                                            ]
                                                         },
                                                         {
                                                             "new_state": 3,
                                                             "rate_type": "gaussian_pc",
-                                                            "rate_parameters": [ 0, 0.001]
+                                                            "rate_parameters": [
+                                                                0,
+                                                                0.001
+                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -298,25 +289,29 @@
                                                     "number": 2,
                                                     "type": "D",
                                                     "extension": 0.0,
-                                                    "transition":
-                                                    [
+                                                    "transition": [
                                                         {
-                                                        "new_state": 1,
-                                                        "rate_type": "constant",
-                                                        "rate_parameters": [ 70 ]
-                                                        }            
+                                                            "new_state": 1,
+                                                            "rate_type": "constant",
+                                                            "rate_parameters": [
+                                                                70
+                                                            ]
+                                                        }
                                                     ]
                                                 },
                                                 {
                                                     "number": 3,
                                                     "type": "A",
                                                     "extension": 0.0,
-                                                    "transition":
-                                                    [
+                                                    "transition": [
                                                         {
                                                             "new_state": 1,
                                                             "rate_type": "poly",
-                                                            "rate_parameters": [100, 0.1, 2]
+                                                            "rate_parameters": [
+                                                                100,
+                                                                0.1,
+                                                                2
+                                                            ]
                                                         }
                                                     ]
                                                 }
@@ -330,15 +325,13 @@
                 }
             }
         },
-        "baroreflex":
-        {
+        "baroreflex": {
             "baro_P_set": 90,
             "baro_S": 0.01,
             "baro_k_drive": 100,
             "baro_k_recov": 0.1,
             "baro_P_compartment": 2,
-            "control":
-            [
+            "control": [
                 {
                     "level": "heart_rate",
                     "variable": "t_RR_interval_s",
@@ -397,11 +390,9 @@
                 }
             ]
         },
-        "growth":
-        {
+        "growth": {
             "master_rate": 1,
-            "control":
-            [
+            "control": [
                 {
                     "type": "eccentric",
                     "level": "FiberSim_half_sarcomere",

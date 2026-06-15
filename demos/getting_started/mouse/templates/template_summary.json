@@ -12,7 +12,7 @@
     "x_display":{
         "global_x_field": "time",
         "label": "Time (s)",
-        "ticks": [0.7, 1]
+        "ticks": [0.2, 0.3]
     },
     "processing":{
         "line_rel_width": 0.01

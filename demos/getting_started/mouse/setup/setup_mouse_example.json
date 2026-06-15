@@ -1,13 +1,69 @@
 {
     "FiberVent_setup": {
         "FiberVentCpp_exe": {
-            "exe_file": "../../../code/fiberventcpp/bin/fiberventcpp.exe"
+            "relative_to": "this_file",
+            "exe_file": "../../../../code/fiberventcpp/bin/fiberventcpp.exe"
         },
         "model":
         {
             "relative_to": "this_file",
             "options_file": "../base/sim_options.json",
-            "model_files": ["../base/base_mouse_model.json"]
+            "manipulations": {
+                "base_model": "../base/base_mouse_model.json",
+                "generated_folder": "../generated/base_mouse",
+                "adjustments": [
+                    {
+                        "class": "circulation",
+                        "variable": "resistance_1",
+                        "multipliers": [
+                            1.0, 0.25
+                        ]
+                    },
+                    {
+                        "class": "aortic_valve",
+                        "variable": "mass",
+                        "multipliers": [
+                            1.0, 1.0
+                        ]
+                    },
+                    {
+                        "class": "aortic_valve",
+                        "variable": "eta",
+                        "multipliers": [
+                            1.0, 1.0
+                        ]
+                    },
+                    {
+                        "class": "aortic_valve",
+                        "variable": "k",
+                        "multipliers": [
+                            1.0, 1
+                        ]
+                    },
+                    {
+                        "class": "mitral_valve",
+                        "variable": "mass",
+                        "multipliers": [
+                            1.0, 1.0
+                        ]
+                    },
+                    {
+                        "class": "mitral_valve",
+                        "variable": "eta",
+                        "multipliers": [
+                            1.0, 1.0
+                        ]
+                    },
+                    {
+                        "class": "mitral_valve",
+                        "variable": "k",
+                        "multipliers": [
+                            1.0, 1.0
+                        ]
+                    }
+
+                ]
+            }
         },
         "characterization":
         [
@@ -16,9 +72,9 @@
                 "relative_to": "this_file",
                 "sim_folder": "../sim_data/",
                 "run_mode": "default",
-                "m_n": 4,
+                "m_n": 16,
                 "time_step_s": 0.0001,
-                "sim_duration_s": 1.0,
+                "sim_duration_s": 0.4,
                 "no_of_conditions": 1,
                 "template_files": ["../templates/template_summary.json"],
                 "output_types": ["png"]

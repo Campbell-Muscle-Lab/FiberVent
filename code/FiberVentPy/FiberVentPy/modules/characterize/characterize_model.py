@@ -17,6 +17,13 @@ import numpy as np
 
 from ..batch import batch
 
+from ..utilities.json_utilities import \
+            prepare_clean_dir, \
+            return_base_dir, \
+            return_FiberVentCpp_exe_dict, \
+            return_model_file_strings, \
+            return_options_file_string
+
 def characterize_model(json_analysis_file_string, figures_only=False):
     """ Code takes a json struct that includes a model file and runs the
         analyses described in thta file """
@@ -35,82 +42,77 @@ def characterize_model(json_analysis_file_string, figures_only=False):
     # appropriate models
     if ("manipulations" in anal_struct['model']):
         json_analysis_file_string = \
-            generate_model_files(json_analysis_file_string)
-        
+            generate_characterization_files(json_analysis_file_string)
+
     # Loop through the characterizations
-    for ch in anal_struct['characterization']:
+    for (char_index, ch) in enumerate(anal_struct['characterization']):
         
         if (ch['type'] == 'isovolumic'):
             deduce_isovolumic_properties(json_analysis_file_string,
-                                         ch,
+                                         char_index,
                                          figures_only)
             
         if (ch['type'] == 'freeform'):
             deduce_freeform_properties(json_analysis_file_string,
-                                       ch,
+                                       char_index,
                                        figures_only)
 
-def generate_model_files(json_analysis_file_string):
-    """ Clones base model with modifications to facilitate comparisons """
+def generate_characterization_files(json_analysis_file_string):
+    """ This function writes setup, options, and model files to
+        the appropriate folders to allow model comparisons.
+        File paths are set to absolutes to make runs easier
+        """
     
     # First load the file
     with open(json_analysis_file_string, 'r') as f:
         json_data = json.load(f)
-        model_struct = json_data['FiberVent_setup']['model']
+        model_dict = json_data['FiberVent_setup']['model']
+        char_dicts = json_data['FiberVent_setup']['characterization']
     
     # Deduce the base model file string
-    base_dir = ''
-    if ('relative_to' in model_struct):
-        if (model_struct['relative_to'] == 'this_file'):
-            base_dir = Path(json_analysis_file_string).parent.absolute()
-        else:
-            base_dir = model_struct['relative_to']
-    base_model_file_string = os.path.join(base_dir,
-                                          model_struct['manipulations']['base_model'])
-    base_model_file_string = str(Path(base_model_file_string).absolute().resolve())
-    
+    base_dir = return_base_dir(json_analysis_file_string, 'model')
+
+    base_model_file_string = str(Path(os.path.join(base_dir,
+                                                  model_dict['manipulations']['base_model'])).
+                                        resolve().absolute())
 
     # Now deduce where to put the adjusted model files
     # We can use the base_dir from above
-    generated_dir = os.path.join(base_dir, model_struct['manipulations']['generated_folder'])
-    generated_dir = str(Path(generated_dir).absolute().resolve())
+    generated_dir = str(Path(os.path.join(base_dir,
+                                          model_dict['manipulations']['generated_folder'])).
+                                          resolve().absolute())
         
     # Clean the generated dir
-    try:
-        print('Trying to remove %s' % generated_dir)
-        shutil.rmtree(generated_dir, ignore_errors = True)
-    except OSError as e:
-        print('Error: %s : %s' % (generated_dir, e.strerror))
-        
-    if not os.path.isdir(generated_dir):
-        os.makedirs(generated_dir)
-        
+    prepare_clean_dir(generated_dir)
+
     # Now copy the sim_options file across
-    # We can still use the base dir above
-    orig_options_file_string = os.path.join(base_dir, model_struct['options_file'])
-    temp, file_name = os.path.split(orig_options_file_string)
-    new_options_file = os.path.join(generated_dir, file_name)
+    orig_options_file_string = return_options_file_string(json_analysis_file_string)
     
-    shutil.copy(orig_options_file_string, new_options_file)
+    new_options_file_string = str(Path(os.path.join(generated_dir,
+                                                    os.path.split(orig_options_file_string)[-1])).
+                                        resolve().absolute())
+
+    shutil.copy(orig_options_file_string, new_options_file_string)
 
     # Load up the base model
     with open(base_model_file_string, 'r') as f:
         base_model = json.load(f)
 
     # Now work out if we need to make adjustments
-    if not ('adjustments' in model_struct['manipulations']):
+    if not ('adjustments' in model_dict['manipulations']):
         # No manipulations to model file, copy the base to the
         # generated folder and note the file name
 
-        new_model_file_string = os.path.join(generated_dir,
-                                             'model_1.json')
+        new_model_file_string = str(Path(os.path.join(generated_dir,
+                                                        'model_1.json')).
+                                        resolve().absolute())
         
         shutil.copy(base_model_file_string, new_model_file_string)
         
         generated_models = [new_model_file_string]
 
     else:        
-        adjustments = model_struct['manipulations']['adjustments']
+        adjustments = model_dict['manipulations']['adjustments']
         
         if not ('multipliers' in adjustments[0]):
             print('Error: No multipliers supplied')
@@ -301,34 +303,47 @@ def generate_model_files(json_analysis_file_string):
                     if (np.isnan(value)):
                         adj_model[a['class']][a['variable']] = 'null'
         
-            # Now generate the model file string
-            model_file_string = 'model_%i.json' % (i+1)
-            
-            # We need the full path to write it to disk
-            adj_model_file_string = os.path.join(generated_dir,
-                                                 model_file_string)
+            # Now generate the model file string as an absolute path
+            model_file_string = str(Path(os.path.join(generated_dir,
+                                                      'model_%i.json' % (i+1))).
+                                        resolve().absolute())
     
-            with open(adj_model_file_string, 'w') as f:
+            with open(model_file_string, 'w') as f:
                 json.dump(adj_model, f, indent=4)
     
             # Append the model files
-            if not (model_struct['relative_to'] == 'this_file'):
-                model_file_string = adj_model_file_string
-                
             generated_models.append(model_file_string)
         
     # Update the set up file
+
+    json_data['FiberVent_setup']['FiberVentCpp_exe'] = \
+        return_FiberVentCpp_exe_dict(json_analysis_file_string)
     
     # Add in the model files
+    json_data['FiberVent_setup']['model']['relative_to'] = 'False'
     json_data['FiberVent_setup']['model']['model_files'] = generated_models
     
     # Delete the adjustments
     del(json_data['FiberVent_setup']['model']['manipulations'])
 
     # Update the options
-    file_parts = os.path.split(new_options_file)
+    json_data['FiberVent_setup']['model']['options_file'] = new_options_file_string
 
-    json_data['FiberVent_setup']['model']['options_file'] = file_parts[-1]
+    # Update characterizations
+    for (i,ch) in enumerate(char_dicts):
+        base_dir = return_base_dir(json_analysis_file_string,
+                                    'characterization',
+                                    dict_index = i)
+        ch['relative_to'] = 'False'
+        ch['sim_folder'] = str(Path(os.path.join(base_dir,
+                                                 ch['sim_folder'])).
+                                                 resolve().absolute())
+        if ('template_files' in ch):
+            for (j,tf) in enumerate(ch['template_files']):
+                ch['template_files'][j] = str(Path(
+                    os.path.join(base_dir, tf)).resolve().absolute())
+
+        json_data['FiberVent_setup']['characterization'][j] = ch
     
     # Generate a new setup file string
     generated_setup_file_string = os.path.join(generated_dir,
@@ -343,7 +358,7 @@ def generate_model_files(json_analysis_file_string):
 
 
 def deduce_freeform_properties(json_analysis_file_string,
-                               characterization_struct,
+                               char_index,
                                figures_only = False):
     """ Runs a sequence of freeform simulations """
        
@@ -356,8 +371,12 @@ def deduce_freeform_properties(json_analysis_file_string,
     FiberV_batch = dict()
     
     # Add in the MyoVentCpp stuff
-    FiberV_batch['FiberVentCpp_exe'] = anal_struct['FiberVentCpp_exe']
-    
+    FiberV_batch['FiberVentCpp_exe'] = \
+        return_FiberVentCpp_exe_dict(json_analysis_file_string)
+
+    # Get the model files
+    model_file_strings = return_model_file_strings(json_analysis_file_string)
+    """    
     # Deduce the base model files
     if ('relative_to' in anal_struct['model']):
         if (anal_struct['model']['relative_to'] == 'this_file'):
@@ -370,7 +389,12 @@ def deduce_freeform_properties(json_analysis_file_string,
     base_model_files = []
     for mf in anal_struct['model']['model_files']:
         base_model_files.append(os.path.join(base_dir, mf))
-        
+    """
+      
+    # And the base options file
+    base_options_file_string = return_options_file_string(json_analysis_file_string)
+
+    """
     # Deduce the base options file
     # Can use the base dir from above
     base_options_file = os.path.join(base_dir,
@@ -378,10 +402,26 @@ def deduce_freeform_properties(json_analysis_file_string,
 
     # Tidy up
     base_options_file = str(Path(base_options_file).absolute().resolve())
-   
+    """
     
     # Now do stuff based on the characterization
+    char_dict = json_data['FiberVent_setup']['characterization'][char_index]
     
+    if (char_dict['relative_to'] == 'False'):
+        top_data_dir = char_dict['sim_folder']
+    else:
+        base_dir = return_base_dir(json_analysis_file_string,
+                                    'characterization',
+                                    char_index)
+        top_data_dir = str(Path(os.path.join(base_dir,
+                                             char_dict['sim_folder'])).
+                                             resolve().absolute())
+
+    # Prep it
+    if (not figures_only):
+        prepare_clean_dir(top_data_dir)
+    
+    """
     # First, work out the base dir
     
     if ('relative_to' in characterization_struct):
@@ -406,43 +446,49 @@ def deduce_freeform_properties(json_analysis_file_string,
         if not os.path.isdir(top_data_dir):
             os.makedirs(top_data_dir)
 
+    """
+
     # Set some counters and arrays for the simulations
     sim_counter = 1
     job = []
                 
     # Now cycle through the model files
-    for (model_counter, mf) in enumerate(base_model_files):
+    for (model_counter, mf) in enumerate(model_file_strings):
         
         # Load the base model
         with open(mf, 'r') as f:
             base_model = json.load(f)
             
         # Load the options file
-        with open(base_options_file, 'r') as f:
+        with open(base_options_file_string, 'r') as f:
             base_options = json.load(f)
         
         # Now cycle through volume_factors
-        for cond_ind in range(characterization_struct['no_of_conditions']):
+        for cond_ind in range(char_dict['no_of_conditions']):
 
             # Create a dictionary for the job
             j = dict()
 
-            # Make the input folder
+            # Make and prepare the input folder
             sim_input_folder = os.path.join(top_data_dir,
                                             'sim_input',
                                             ('%i' % sim_counter))
             
+            prepare_clean_dir(sim_input_folder)
+            
+            """
             if not (os.path.isdir(sim_input_folder)):
                 os.makedirs(sim_input_folder)
+            """
 
-            # Copy the volume and make some adjustments
+            # Copy the model and make some adjustments
             new_model = copy.deepcopy(base_model)
                 
             # If m_n is listed, set that
-            if ('m_n' in characterization_struct):
+            if ('m_n' in char_dict):
                 new_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
                     ['model']['muscle']['half_sarcomere']['thick_structure']['m_n'] = \
-                        characterization_struct['m_n']
+                        char_dict['m_n']
                 
             # Now write the model to file
             new_model_file_string = os.path.join(sim_input_folder,
@@ -463,24 +509,24 @@ def deduce_freeform_properties(json_analysis_file_string,
             # Create a protocol
             prot = dict()
             prot['protocol'] = dict()
-            prot['protocol']['time_step_s'] = characterization_struct['time_step_s']
+            prot['protocol']['time_step_s'] = char_dict['time_step_s']
             prot['protocol']['no_of_time_steps'] = round(
-                characterization_struct['sim_duration_s'] / characterization_struct['time_step_s'])
+                char_dict['sim_duration_s'] / char_dict['time_step_s'])
             
             # Add in an activation
-            if ('activation' in characterization_struct):
+            if ('activation' in char_dict):
                 prot['activation'] = []
-                for i in range(len(characterization_struct['activation'])):
-                    act = copy.deepcopy(characterization_struct['activation'][i])
+                for i in range(len(char_dict['activation'])):
+                    act = copy.deepcopy(char_dict['activation'][i])
                     if (np.any(np.asarray(act['simulation']) == (cond_ind+1))):
                         del act['simulation']
                         prot['activation'].append(act)                
             
             # Add in the perturbation
-            if ('perturbation' in characterization_struct):
+            if ('perturbation' in char_dict):
                 prot['perturbation'] = []
-                for i in range(len(characterization_struct['perturbation'])):
-                    pert = copy.deepcopy(characterization_struct['perturbation'][i])
+                for i in range(len(char_dict['perturbation'])):
+                    pert = copy.deepcopy(char_dict['perturbation'][i])
                     if (np.any(np.asarray(pert['simulation']) == (cond_ind+1))):
                         del pert['simulation']
                         prot['perturbation'].append(pert)
@@ -497,21 +543,32 @@ def deduce_freeform_properties(json_analysis_file_string,
                                             'sim_output',
                                             ('%i' % sim_counter))
             
+            if (not figures_only):
+                prepare_clean_dir(sim_output_folder)
+
+            """
             if not (os.path.isdir(sim_output_folder)):
                 os.makedirs(sim_output_folder)
-                
+            """            
+
             new_results_file_string = os.path.join(sim_output_folder,
                                               'sim_output.txt')
             
             # Add in an output handler
-            if ('template_files' in characterization_struct):
+            if ('template_files' in char_dict):
                 oh = dict()
                 oh['templated_images'] = []
-                for (i,template_f) in enumerate(characterization_struct['template_files']):
+                for (i,template_f) in enumerate(char_dict['template_files']):
                     tf = dict()
+                    if not (char_dict['relative_to'] == 'False'):
+                        base_dir = return_base_dir(json_analysis_file_string,
+                                                    'characterization',
+                                                    dict_index = char_index)
+                        template_f = str(Path(os.path.join(
+                            base_dir, template_f)).resolve().absolute())
+
                     tf['relative_to'] = 'False'
-                    tf['template_file_string'] = str(Path(os.path.join(base_dir,
-                                                              template_f)).resolve().absolute())
+                    tf['template_file_string'] = template_f
                     tf['output_file_string'] = str(Path(os.path.join(sim_output_folder,
                                                             'output_%i_%i' % (sim_counter, i+1))).
                                                             resolve().absolute())
@@ -537,7 +594,7 @@ def deduce_freeform_properties(json_analysis_file_string,
             j['protocol_file'] = str(Path(new_protocol_file_string).resolve().absolute())
             j['results_file'] = str(Path(new_results_file_string).resolve().absolute())
             
-            if ('template_files' in characterization_struct):
+            if ('template_files' in char_dict):
                 j['output_handler_file'] = str(Path(new_output_handler_file_string).resolve().absolute())
             
             # Update the counter
@@ -566,8 +623,8 @@ def deduce_freeform_properties(json_analysis_file_string,
                                             'rates')
     fig['output_image_formats'] = ['png']
 
-    if ('formatting' in characterization_struct):
-        fig['formatting'] = characterization_struct['formatting']
+    if ('formatting' in char_dict):
+        fig['formatting'] = char_dict['formatting']
 
     batch_figs['rates'].append(fig)
     
@@ -597,7 +654,7 @@ def deduce_freeform_properties(json_analysis_file_string,
     
     batch_figs['superposed_traces'].append(fig)
     
-    if ('espvr_start_time_s' in characterization_struct):
+    if ('espvr_start_time_s' in char_dict):
         # Now make a pv plot
         batch_figs['pv_loops'] = []
         fig = dict()
@@ -609,11 +666,11 @@ def deduce_freeform_properties(json_analysis_file_string,
                                                 'pv_loops')
         
         fig['output_image_formats'] = ['png']
-        if ('output_image_formats' in characterization_struct):
-            fig['output_image_formats'] = characterization_struct['output_image_formats']
+        if ('output_image_formats' in char_dict):
+            fig['output_image_formats'] = char_dict['output_image_formats']
         
-        if ('espvr_start_time_s' in characterization_struct):
-            fig['espvr_start_time_s'] = characterization_struct['espvr_start_time_s']
+        if ('espvr_start_time_s' in char_dict):
+            fig['espvr_start_time_s'] = char_dict['espvr_start_time_s']
     
         fig['layout'] = dict()
         fig['layout']['panel_height'] = 3.5
