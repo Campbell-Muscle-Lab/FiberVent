@@ -2,31 +2,46 @@
     "FiberVent_setup": {
         "FiberVentCpp_exe": {
             "relative_to": "False",
-            "exe_file": "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\code\\FiberVentCpp\\bin\\FiberVentCpp.exe"
+            "exe_file": "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\code\\FiberVentCpp\\bin\\FiberVentCpp.exe"
         },
         "model": {
             "relative_to": "False",
-            "options_file": "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\sim_options.json",
+            "options_file": "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\sim_options.json",
             "model_files": [
-                "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\model_1.json",
-                "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\model_2.json"
+                "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\model_1.json",
+                "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\model_2.json",
+                "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\model_3.json",
+                "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\model_4.json",
+                "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\model_5.json",
+                "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\model_6.json",
+                "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\generated\\base_mouse\\model_7.json"
             ]
         },
         "characterization": [
             {
                 "type": "freeform",
                 "relative_to": "False",
-                "sim_folder": "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\sim_data",
+                "sim_folder": "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\sim_data",
                 "run_mode": "default",
-                "m_n": 16,
-                "time_step_s": 0.0001,
-                "sim_duration_s": 0.4,
+                "m_n": 49,
+                "time_step_s": 1e-05,
+                "sim_duration_s": 10,
                 "no_of_conditions": 1,
                 "template_files": [
-                    "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\templates\\template_summary.json"
+                    "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\mouse\\templates\\template_summary.json"
                 ],
                 "output_types": [
                     "png"
+                ],
+                "activation": [
+                    {
+                        "type": "baroreflex",
+                        "t_start_s": 5,
+                        "t_stop_s": 10000,
+                        "simulation": [
+                            1
+                        ]
+                    }
                 ]
             }
         ]

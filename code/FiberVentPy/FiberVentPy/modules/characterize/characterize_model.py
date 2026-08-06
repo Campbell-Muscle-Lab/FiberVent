@@ -137,7 +137,8 @@ def generate_characterization_files(json_analysis_file_string):
                         # Likely entry into an array
                         temp = re.findall(r'\d+', a['variable'])
                         cpt_number = int(temp[0])
-                        var_name = a['variable'].split('_')[0]
+                        ri = a['variable'].rfind('_')
+                        var_name = a['variable'][0 : ri]
                         
                         y = np.asarray(adj_model['FiberVent']['circulation']['compartments'][var_name],
                                        dtype = np.float32)
@@ -258,7 +259,7 @@ def generate_characterization_files(json_analysis_file_string):
                         fhs['extracellular_parameters'][a['variable']] = value
                         
                     elif ((a['variable'] == 'm_kinetics') or
-                        (a['a_variable'] == 'c_kinetics')):
+                        (a['variable'] == 'c_kinetics')):
     
                         kinetics_structure = adj_model['FiberVent']['circulation']['ventricle']['myocardium']['contraction'] \
                             ['model']['muscle']['half_sarcomere'][a['variable']][a['isotype']-1]['state'][a['state']-1]

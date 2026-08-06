@@ -13,55 +13,12 @@
                 "generated_folder": "../generated/base_mouse",
                 "adjustments": [
                     {
-                        "class": "circulation",
-                        "variable": "resistance_1",
+                        "class": "FiberSim_half_sarcomere",
+                        "variable": "a_k_off",
                         "multipliers": [
-                            1.0, 0.25
-                        ]
-                    },
-                    {
-                        "class": "aortic_valve",
-                        "variable": "mass",
-                        "multipliers": [
-                            1.0, 1.0
-                        ]
-                    },
-                    {
-                        "class": "aortic_valve",
-                        "variable": "eta",
-                        "multipliers": [
-                            1.0, 1.0
-                        ]
-                    },
-                    {
-                        "class": "aortic_valve",
-                        "variable": "k",
-                        "multipliers": [
-                            1.0, 1
-                        ]
-                    },
-                    {
-                        "class": "mitral_valve",
-                        "variable": "mass",
-                        "multipliers": [
-                            1.0, 1.0
-                        ]
-                    },
-                    {
-                        "class": "mitral_valve",
-                        "variable": "eta",
-                        "multipliers": [
-                            1.0, 1.0
-                        ]
-                    },
-                    {
-                        "class": "mitral_valve",
-                        "variable": "k",
-                        "multipliers": [
-                            1.0, 1.0
+                            1, 0.5, 0.75, 1.25, 1.5, 1.75, 2
                         ]
                     }
-
                 ]
             }
         },
@@ -72,12 +29,23 @@
                 "relative_to": "this_file",
                 "sim_folder": "../sim_data/",
                 "run_mode": "default",
-                "m_n": 16,
-                "time_step_s": 0.0001,
-                "sim_duration_s": 0.4,
+                "m_n": 49,
+                "time_step_s": 0.00001,
+                "sim_duration_s": 10,
                 "no_of_conditions": 1,
                 "template_files": ["../templates/template_summary.json"],
-                "output_types": ["png"]
+                "output_types": ["png"],
+                "activation":
+                [
+                    {
+                        "type": "baroreflex",
+                        "t_start_s": 5,
+                        "t_stop_s": 10000,
+                        "simulation": [
+                            1
+                        ]
+                    }
+                ]
             }
         ]
         

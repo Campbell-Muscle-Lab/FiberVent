@@ -28,13 +28,13 @@
             "thick_wall_approximation": "True"
         },
         "results": {
-            "beat_length_s": 3,
-            "summary_time_step_s": 0.0001,
-            "xwrite_every_s": 100,
+            "beat_length_s": 0.15,
+            "summary_time_step_s": 0.001,
+            "write_every_s": 1,
             "xburst_mode":
             {
-                "burst_length_s": 5,
-                "burst_every_s": 20
+                "burst_length_s": 0.3,
+                "burst_every_s": 1
             }
         }        
     }
