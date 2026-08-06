@@ -1,0 +1,53 @@
+{
+    "FiberVent_setup": {
+        "FiberVentCpp_exe": {
+            "relative_to": "this_file",
+            "exe_file": "../../../../code/fiberventcpp/bin/fiberventcpp.exe"
+        },
+        "model":
+        {
+            "relative_to": "this_file",
+            "options_file": "sim_options.json",
+            "manipulations": {
+                "base_model": "base_model.json",
+                "generated_folder": "../generated/base_model",
+                "adjustments": [
+                    {
+                        "class": "FiberSim_half_sarcomere",
+                        "variable": "a_k_off",
+                        "multipliers": [
+                            1
+                        ]
+                    }
+                ]
+            }
+        },
+        "characterization":
+        [
+            {
+                "type": "freeform",
+                "relative_to": "this_file",
+                "sim_folder": "../sim_data/",
+                "run_mode": "default",
+                "m_n": 4,
+                "time_step_s": 0.001,
+                "sim_duration_s": 5,
+                "no_of_conditions": 1,
+                "template_files": ["../templates/template_summary.json"],
+                "output_types": ["png"],
+                "activation":
+                [
+                    {
+                        "type": "baroreflex",
+                        "t_start_s": 5,
+                        "t_stop_s": 10000,
+                        "simulation": [
+                            1
+                        ]
+                    }
+                ]
+            }
+        ]
+        
+    }
+}
