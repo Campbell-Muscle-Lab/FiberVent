@@ -13,6 +13,7 @@
 #endif
 
 #include <string>
+#include <vector>
 
 #include "global_definitions.h"
 #include "gsl_vector.h"
@@ -42,8 +43,17 @@ public:
                                              used for logging */
 
     // Model version
-
     char version[_MAX_PATH];            /**< version from the model file */
+
+    // ONNX model
+    string onnx_model_file_string;      /**< string holding onnx model */
+
+    bool onnx_model;                    /**< bool indicating whether there is an onnx model */
+
+    std::vector<string> onnx_input_fields;
+                                        /** vector of strings for onnx model input fields */
+    std::vector<string> onnx_target_fields;
+                                        /** vector of strings for onnx model target fields */
 
     // Muscle
     int no_of_half_sarcomeres;          /**< Number of half-sarcomeres in model */

@@ -103,7 +103,13 @@
                         {
                             "version":
                             {
-                            "version": "2.1.0"
+                                "version": "2.1.0"
+                            },
+                            "onnx_model":
+                            {
+                                "onnx_file": "D:/ken/github/campbellmusclelab/models/FiberVent/demos/getting_started/human/base/model.onnx",
+                                "input_fields": ["m_length", "hs_1_pCa", "m_force"],
+                                "target_fields": ["m_force", "hs_1_titin_force"]
                             },
                             "muscle":
                             {

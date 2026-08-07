@@ -15,6 +15,8 @@
 #include "gsl_spmatrix.h"
 #include "gsl_rng.h"
 
+#include <onnxruntime_cxx_api.h>
+
 class cmv_results;
 
 class FiberSim_muscle;
@@ -37,6 +39,16 @@ public:
                                     /**< pointer to the parent FiberSim muscle */
     
     int hs_id;						/**< integer identifier for the half-sarcomere */
+
+    // ONNX
+
+    bool onnx_model;                 /**< bool indicating whether to simulate model using
+                                            onnx surrogate */
+
+    Ort::Env* p_onnx_env;           /**< onnx environment */
+    Ort::SessionOptions* p_onnx_session_options;
+                                    /**< onnx session options */
+    Ort::Session* p_onnx_session;   /**< onnx session */
 
     // Pointers
     FiberSim_model* p_fs_model;     /**< pointer to a FiberSim model */

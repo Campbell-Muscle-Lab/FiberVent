@@ -21,7 +21,6 @@
 #include "FiberSim_series_component.h"
 #include "FiberSim_kinetic_scheme.h"
 
-
 #include "gsl_math.h"
 #include "gsl_vector.h"
 #include "gsl_multiroots.h"

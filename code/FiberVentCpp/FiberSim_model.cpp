@@ -4,8 +4,9 @@
  * @author  Ken Campbell
  */
 
-#include <cstdio>
+#include <iostream>
 #include <string>
+#include <vector>
 
 #include "FiberSim_model.h"
 #include "FiberSim_options.h"
@@ -34,6 +35,8 @@ FiberSim_model::FiberSim_model(void)
 
     set_FiberSim_model_parameters_from_JSON_file_string(JSON_model_file_string);
     */
+
+    onnx_model = false;
 }
 
 // Destructor
@@ -71,6 +74,32 @@ void FiberSim_model::set_FiberSim_model_parameters(const rapidjson::Value& doc)
     sprintf_s(version, _MAX_PATH, ver["version"].GetString());
 
     printf("version: %s\n", version);
+
+    // Check for onnx model
+    if (JSON_functions::check_JSON_member_exists(doc, "onnx_model"))
+    {
+        const rapidjson::Value& om = doc["onnx_model"];
+
+        // Now pull off the string
+        JSON_functions::check_JSON_member_string(om, "onnx_file");
+        onnx_model_file_string = om["onnx_file"].GetString();
+
+        // Set the flag
+        onnx_model = true;
+
+        // Load the fields
+        JSON_functions::check_JSON_member_array(om, "input_fields");
+        const rapidjson::Value& oif = om["input_fields"];
+
+        for (size_t i = 0; i < oif.Size(); i++)
+            onnx_input_fields.push_back(oif[i].GetString());
+
+        JSON_functions::check_JSON_member_array(om, "input_fields");
+        const rapidjson::Value& otf = om["target_fields"];
+
+        for (size_t i = 0; i < otf.Size(); i++)
+            onnx_target_fields.push_back(otf[i].GetString());
+    }
 
     // Load the muscle parameters
     JSON_functions::check_JSON_member_object(doc, "muscle");

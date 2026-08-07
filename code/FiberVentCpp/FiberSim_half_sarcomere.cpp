@@ -36,6 +36,8 @@
 #include "gsl_randist.h"
 #include "gsl_roots.h"
 
+#include <onnxruntime_cxx_api.h>
+
 using namespace::std;
 
 // Structure used for root finding for force control mode
@@ -63,16 +65,45 @@ struct lattice_event
 // Constructor
 FiberSim_half_sarcomere::FiberSim_half_sarcomere(FiberSim_muscle* set_p_parent_fs_muscle, int set_hs_id)
 {
-	//! Constructor
-	p_parent_fs_muscle = set_p_parent_fs_muscle;
-	hs_id = set_hs_id;
+    //! Constructor
+    p_parent_fs_muscle = set_p_parent_fs_muscle;
+    hs_id = set_hs_id;
 
     // Variables
     int calculate_x_max_iterations;
 
-	// Set the pointers
-	p_fs_model = p_parent_fs_muscle->p_parent_muscle->p_cmv_model->p_fs_model;
-	p_fs_options = p_parent_fs_muscle->p_parent_muscle->p_cmv_options->p_FiberSim_options;
+    // Set the pointers
+    p_fs_model = p_parent_fs_muscle->p_parent_muscle->p_cmv_model->p_fs_model;
+    p_fs_options = p_parent_fs_muscle->p_parent_muscle->p_cmv_options->p_FiberSim_options;
+
+    // Set the onnx_model
+    onnx_model = p_fs_model->onnx_model;
+
+    // If necessary, load the onnx model as a session
+    if (onnx_model)
+    {
+        p_onnx_env = new Ort::Env(ORT_LOGGING_LEVEL_WARNING, "forecast");
+        
+        p_onnx_session_options = new Ort::SessionOptions;
+        p_onnx_session_options->SetIntraOpNumThreads(1);
+        
+        std::wstring w_path(p_fs_model->onnx_model_file_string.begin(),
+            p_fs_model->onnx_model_file_string.end());
+
+        p_onnx_session = new Ort::Session(
+            *p_onnx_env,
+            w_path.c_str(),
+            *p_onnx_session_options);
+
+        std::cout << "Model loaded successfully\n";
+    }
+    else
+    {
+        // Set pointers
+        p_onnx_env = NULL;
+        p_onnx_session_options = NULL;
+        p_onnx_session = NULL;
+    }
 
     // Set the class pointers to the kinetic scheme for myosin
     for (int i = 0; i < p_fs_model->m_no_of_isotypes; i++) {
@@ -386,6 +417,14 @@ FiberSim_half_sarcomere::~FiberSim_half_sarcomere()
     // Delete the transition vectors
     gsl_vector_free(transition_probs);
     gsl_vector_free(cum_prob);
+
+    // And now ONNX pointers
+    if (p_onnx_session != NULL)
+    {
+        delete p_onnx_session;
+        delete p_onnx_session_options;
+        delete p_onnx_env;
+    }
 }
 
 void FiberSim_half_sarcomere::initialise_for_simulation(void)
@@ -407,7 +446,6 @@ void FiberSim_half_sarcomere::initialise_for_simulation(void)
     p_cmv_results_beat->add_results_field("fs_hs_stress_extracellular", &hs_extracellular_force);
     p_cmv_results_beat->add_results_field("fs_hs_stress_viscous", &hs_viscous_force);
     p_cmv_results_beat->add_results_field("fs_hs_stress_total", &hs_force);
-
 
     for (int i = 0; i < a_no_of_bs_states; i++)
     {
