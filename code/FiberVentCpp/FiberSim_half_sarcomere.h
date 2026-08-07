@@ -15,6 +15,8 @@
 #include "gsl_spmatrix.h"
 #include "gsl_rng.h"
 
+#include "FiberSim_half_sarcomere_onnx.h"
+
 #include <onnxruntime_cxx_api.h>
 
 class cmv_results;
@@ -49,6 +51,9 @@ public:
     Ort::SessionOptions* p_onnx_session_options;
                                     /**< onnx session options */
     Ort::Session* p_onnx_session;   /**< onnx session */
+
+    FiberSim_half_sarcomere_onnx* p_fs_hs_onnx;
+                                    /**< pointer to a FiberSim_half_sarcomere_onnx class */
 
     // Pointers
     FiberSim_model* p_fs_model;     /**< pointer to a FiberSim model */

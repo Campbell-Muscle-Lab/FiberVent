@@ -123,6 +123,9 @@
     <ClCompile Include="FiberVentCpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FiberSim_half_sarcomere_onnx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmv_system.h">
@@ -234,6 +237,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyoSim_muscle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FiberSim_half_sarcomere_onnx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

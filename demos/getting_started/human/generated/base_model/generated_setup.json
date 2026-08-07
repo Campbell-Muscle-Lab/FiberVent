@@ -2,27 +2,27 @@
     "FiberVent_setup": {
         "FiberVentCpp_exe": {
             "relative_to": "False",
-            "exe_file": "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\code\\FiberVentCpp\\bin\\FiberVentCpp.exe"
+            "exe_file": "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\code\\FiberVentCpp\\bin\\FiberVentCpp.exe"
         },
         "model": {
             "relative_to": "False",
-            "options_file": "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\human\\generated\\base_model\\sim_options.json",
+            "options_file": "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\human\\generated\\base_model\\sim_options.json",
             "model_files": [
-                "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\human\\generated\\base_model\\model_1.json"
+                "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\human\\generated\\base_model\\model_1.json"
             ]
         },
         "characterization": [
             {
                 "type": "freeform",
                 "relative_to": "False",
-                "sim_folder": "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\human\\sim_data",
+                "sim_folder": "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\human\\sim_data",
                 "run_mode": "default",
                 "m_n": 4,
                 "time_step_s": 0.001,
                 "sim_duration_s": 5,
                 "no_of_conditions": 1,
                 "template_files": [
-                    "D:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\human\\templates\\template_summary.json"
+                    "C:\\ken\\github\\campbellmusclelab\\models\\FiberVent\\demos\\getting_started\\human\\templates\\template_summary.json"
                 ],
                 "output_types": [
                     "png"

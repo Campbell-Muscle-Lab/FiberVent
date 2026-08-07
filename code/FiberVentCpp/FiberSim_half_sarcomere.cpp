@@ -8,6 +8,8 @@
 #include <chrono>
 #include <iostream>
 #include <regex>
+#include <string>
+#include <filesystem>
 
 #include "global_definitions.h"
 
@@ -24,6 +26,7 @@
 #include "FiberSim_kinetic_scheme.h"
 #include "FiberSim_m_state.h"
 #include "FiberSim_transition.h"
+#include "FiberSim_half_sarcomere_onnx.h"
 
 #include "gsl_math.h"
 #include "gsl_vector.h"
@@ -87,15 +90,18 @@ FiberSim_half_sarcomere::FiberSim_half_sarcomere(FiberSim_muscle* set_p_parent_f
         p_onnx_session_options = new Ort::SessionOptions;
         p_onnx_session_options->SetIntraOpNumThreads(1);
         
-        std::wstring w_path(p_fs_model->onnx_model_file_string.begin(),
-            p_fs_model->onnx_model_file_string.end());
+        std::wstring w_path = std::filesystem::path(p_fs_model->onnx_model_file_string).wstring();
+
+        printf("w_string: %s\n", w_path);
 
         p_onnx_session = new Ort::Session(
             *p_onnx_env,
-            w_path.c_str(),
+            w_path,
             *p_onnx_session_options);
 
         std::cout << "Model loaded successfully\n";
+
+        p_fs_hs_onnx = new FiberSim_half_sarcomere_onnx(this, p_onnx_session);
     }
     else
     {
@@ -103,6 +109,7 @@ FiberSim_half_sarcomere::FiberSim_half_sarcomere(FiberSim_muscle* set_p_parent_f
         p_onnx_env = NULL;
         p_onnx_session_options = NULL;
         p_onnx_session = NULL;
+        delete p_fs_hs_onnx;
     }
 
     // Set the class pointers to the kinetic scheme for myosin
