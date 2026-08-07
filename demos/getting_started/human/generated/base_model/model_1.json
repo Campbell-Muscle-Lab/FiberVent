@@ -90,12 +90,12 @@
                             "onnx_model": {
                                 "onnx_file": "D:/ken/github/campbellmusclelab/models/FiberVent/demos/getting_started/human/base/model.onnx",
                                 "input_fields": [
-                                    "m_length",
+                                    "hs_1_length",
                                     "hs_1_pCa",
-                                    "m_force"
+                                    "hs_1_force"
                                 ],
                                 "target_fields": [
-                                    "m_force",
+                                    "hs_1_force",
                                     "hs_1_titin_force"
                                 ]
                             },

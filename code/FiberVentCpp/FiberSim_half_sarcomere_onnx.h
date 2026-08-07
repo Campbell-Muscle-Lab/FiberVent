@@ -56,9 +56,13 @@ public:
 	gsl_matrix_float* gsl_predicted_matrix;		/** pointer to a gsl_matrix that holds the
 													predictions */
 
+	size_t idx_for_hs_1_force_prediction;		/** index for hs_1_force prediction */
+
 	// Functions
-	void update_predictor_matrix(bool initializing);
+	void update_predictor_matrix(std::string update_mode);
 												/**< Updates the predictor matrix */
 
-	//void update_predicted_matrix(void);
+	void update_predicted_matrix(void);
+
+	void print_gsl_float_matrix(gsl_matrix_float* m);
 };

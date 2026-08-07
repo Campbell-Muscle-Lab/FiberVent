@@ -92,11 +92,9 @@ FiberSim_half_sarcomere::FiberSim_half_sarcomere(FiberSim_muscle* set_p_parent_f
         
         std::wstring w_path = std::filesystem::path(p_fs_model->onnx_model_file_string).wstring();
 
-        printf("w_string: %s\n", w_path);
-
         p_onnx_session = new Ort::Session(
             *p_onnx_env,
-            w_path,
+             w_path.c_str(),
             *p_onnx_session_options);
 
         std::cout << "Model loaded successfully\n";
@@ -365,6 +363,15 @@ FiberSim_half_sarcomere::FiberSim_half_sarcomere(FiberSim_muscle* set_p_parent_f
 
     // Calculate force
     hs_force = calculate_force(0, 0);
+
+    // If required, updated the onnx model
+    if (p_fs_hs_onnx != NULL)
+    {
+        // pCa is undefined at this point, but we will need it
+        pCa = 7.0;
+        p_fs_hs_onnx->update_predictor_matrix("initialize");
+        p_fs_hs_onnx->print_gsl_float_matrix(p_fs_hs_onnx->gsl_predictor_matrix);
+    }
 
     printf("end of fs_hc_constructor: hs_force: %g\n", hs_force);
 }
@@ -754,6 +761,23 @@ double FiberSim_half_sarcomere::test_force_for_delta_hsl(double delta_hsl, void*
     double original_hs_length = hs_length;
 
     // Code
+
+    // Short-circuit if we are in onnx mode
+    if (p_fs_hs_onnx != NULL)
+    {
+        hs_length = original_hs_length + delta_hsl;
+        p_fs_hs_onnx->update_predictor_matrix("update");
+
+        p_fs_hs_onnx->update_predicted_matrix();
+
+        test_force = (double)gsl_matrix_float_get(p_fs_hs_onnx->gsl_predicted_matrix,
+            p_fs_hs_onnx->idx_for_hs_1_force_prediction, 0);
+
+        // Return to initial configuration
+        hs_length = original_hs_length;
+
+        return (test_force - target_force);
+    }
 
     // Save the x_vector which we need later
     gsl_vector_memcpy(original_x_vector, x_vector);

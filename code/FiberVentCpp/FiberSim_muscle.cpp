@@ -118,7 +118,24 @@ void FiberSim_muscle::implement_time_step(double time_step_s)
 
 	pCa = -log10(p_parent_muscle->p_membranes->memb_Ca_cytosol);
 
-	p_FiberSim_hs->sarcomere_kinetics(time_step_s, pCa);
+	if (p_FiberSim_hs->p_fs_hs_onnx == NULL)
+	{
+		// Normal operation
+		p_FiberSim_hs->sarcomere_kinetics(time_step_s, pCa);
+	}
+	else
+	{
+		// Onnx mode
+		p_FiberSim_hs->pCa = pCa;
+
+		printf("pCa: %g\n", p_FiberSim_hs->pCa);
+
+		// Update the predictor matrix
+		p_FiberSim_hs->p_fs_hs_onnx->update_predictor_matrix("shift");
+		p_FiberSim_hs->p_fs_hs_onnx->update_predictor_matrix("update");
+		p_FiberSim_hs->p_fs_hs_onnx->print_gsl_float_matrix(
+			p_FiberSim_hs->p_fs_hs_onnx->gsl_predictor_matrix);
+	}
 }
 
 int FiberSim_muscle::change_muscle_length(double delta_ml, double time_step_s)
@@ -130,7 +147,7 @@ int FiberSim_muscle::change_muscle_length(double delta_ml, double time_step_s)
 	//! length of the half-sarcomere) are all equal
 	
 	// Variables
-	int x_length;					// The length of the x_vector
+	size_t x_length;					// The length of the x_vector
 	int myofibril_iterations;
 	int max_lattice_iterations;
 	int status;
@@ -214,7 +231,20 @@ int FiberSim_muscle::change_muscle_length(double delta_ml, double time_step_s)
 	new_hs_length = gsl_vector_get(s->x, 0);
 	delta_length = new_hs_length - p_FiberSim_hs->hs_length;
 
-	max_lattice_iterations = p_FiberSim_hs->update_lattice(time_step_s, delta_length);
+	// Branch depending on mode
+	if (p_FiberSim_hs->p_fs_hs_onnx == NULL)
+	{
+		max_lattice_iterations = p_FiberSim_hs->update_lattice(time_step_s, delta_length);
+	}
+	else
+	{
+		p_FiberSim_hs->hs_length = new_hs_length;
+		p_FiberSim_hs->hs_force = gsl_matrix_float_get(
+			p_FiberSim_hs->p_fs_hs_onnx->gsl_predicted_matrix,
+			p_FiberSim_hs->p_fs_hs_onnx->idx_for_hs_1_force_prediction, 0);
+
+		max_lattice_iterations = -1;
+	}
 
 	// Update the sc_extension
 	p_FiberSim_sc->sc_last_extension = p_FiberSim_sc->sc_extension;

@@ -164,8 +164,6 @@ void FiberSim_options::set_FiberSim_options_from_JSON_file_string(const rapidjso
     {
         const rapidjson::Value& myofibrils = options["myofibrils"];
 
-        printf("\n\nKen was here\n");
-
         JSON_functions::check_JSON_member_number(myofibrils, "force_tolerance");
         myofibril_force_tolerance = myofibrils["force_tolerance"].GetDouble();
 
