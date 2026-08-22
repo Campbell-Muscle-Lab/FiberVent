@@ -773,6 +773,9 @@ double FiberSim_half_sarcomere::test_force_for_delta_hsl(double delta_hsl, void*
         test_force = (double)gsl_matrix_float_get(p_fs_hs_onnx->gsl_predicted_matrix,
             p_fs_hs_onnx->idx_for_hs_1_force_prediction, 0);
 
+        printf("original_hs_length: %g   \tdelta_hsl: %g   \t test_force: %g\n",
+            original_hs_length, delta_hsl, test_force);
+
         // Return to initial configuration
         hs_length = original_hs_length;
 

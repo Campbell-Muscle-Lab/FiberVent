@@ -107,7 +107,7 @@
                             },
                             "onnx_model":
                             {
-                                "onnx_file": "D:/ken/github/campbellmusclelab/models/FiberVent/demos/getting_started/human/base/model.onnx",
+                                "onnx_file": "D:/ken/github/campbellmusclelab/publications/paper_fibersim_ml/development/onnx/model.onnx",
                                 "input_fields": ["hs_1_length", "hs_1_pCa", "hs_1_force"],
                                 "target_fields": ["hs_1_force", "hs_1_titin_force"]
                             },
