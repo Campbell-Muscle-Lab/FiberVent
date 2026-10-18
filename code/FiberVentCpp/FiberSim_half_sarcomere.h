@@ -24,6 +24,8 @@ class FiberSim_kinetic_scheme;
 class FiberSim_thick_filament;
 class FiberSim_thin_filament;
 
+class FiberSim_iso_scheme;
+
 struct lattice_event;
 
 using namespace::std;
@@ -42,6 +44,9 @@ public:
     FiberSim_model* p_fs_model;     /**< pointer to a FiberSim model */
 
     FiberSim_options* p_fs_options; /**< pointer to FiberSim options */
+
+    FiberSim_iso_scheme* p_m_iso_scheme;
+                                    /**< pointer to an iso-scheme */
 
     cmv_results* p_cmv_results_beat;
                                     /**< pointer to a results object */
@@ -633,6 +638,13 @@ public:
     * @return -1 if no event occurs, >=0 for event
     */
     int return_event_index(gsl_vector* p_prob);
+
+    /**
+    * void myosin_isotype_kinetics(double time_step)
+    * handles switches between myosin isotypes
+    * @return void
+    */
+    void myosin_iso_type_kinetics(double time_step);
 
     /**
     * double return_force_for_test_delta_hsl()

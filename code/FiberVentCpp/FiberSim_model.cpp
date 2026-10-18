@@ -14,6 +14,10 @@
 #include "FiberSim_m_state.h"
 #include "FiberSim_transition.h"
 
+#include "FiberSim_iso_scheme.h"
+#include "FiberSim_iso_type.h"
+#include "FiberSim_iso_transition.h"
+
 #include "JSON_functions.h"
 
 #include "gsl_math.h"
@@ -34,6 +38,11 @@ FiberSim_model::FiberSim_model(void)
 
     set_FiberSim_model_parameters_from_JSON_file_string(JSON_model_file_string);
     */
+
+    // Null some pointers that might not be used
+    p_m_iso_scheme = NULL;
+    p_c_iso_scheme = NULL;
+    p_thin_iso_scheme = NULL;
 }
 
 // Destructor
@@ -56,6 +65,14 @@ FiberSim_model::~FiberSim_model()
     // Delete gsl_vector
     gsl_vector_free(m_isotype_props);
     gsl_vector_free(c_isotype_props);
+
+    // Delete iso_schemes if necessary
+    if (p_m_iso_scheme != NULL)
+        delete p_m_iso_scheme;
+    if (p_c_iso_scheme != NULL)
+        delete p_c_iso_scheme;
+    if (p_thin_iso_scheme != NULL)
+        delete p_thin_iso_scheme;
 }
 
 // Functions
@@ -349,7 +366,27 @@ void FiberSim_model::set_FiberSim_model_parameters(const rapidjson::Value& doc)
         p_c_scheme[i] = create_kinetic_scheme(c_ks[i]);
     }
 
-    printf("trans_par: %g\n", gsl_vector_get(p_c_scheme[0]->p_m_states[0]->p_transitions[0]->rate_parameters, 0));
+    // Check for isotype switches
+    if (JSON_functions::check_JSON_member_exists(hs, "m_iso_switching"))
+    {
+        const rapidjson::Value& m_iso = hs["m_iso_switching"];
+
+        p_m_iso_scheme = new FiberSim_iso_scheme(m_iso, this, p_fs_options);
+    }
+
+    if (JSON_functions::check_JSON_member_exists(hs, "c_iso_switching"))
+    {
+        const rapidjson::Value& c_iso = hs["c_iso_switching"];
+
+        p_c_iso_scheme = new FiberSim_iso_scheme(c_iso, this, p_fs_options);
+    }
+
+    if (JSON_functions::check_JSON_member_exists(hs, "thin_iso_switching"))
+    {
+        const rapidjson::Value& thin_iso = hs["thin_iso_switching"];
+
+        p_thin_iso_scheme = new FiberSim_iso_scheme(thin_iso, this, p_fs_options);
+    }
 }
 
 FiberSim_kinetic_scheme* FiberSim_model::create_kinetic_scheme(const rapidjson::Value& ks)

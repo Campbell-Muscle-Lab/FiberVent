@@ -28,6 +28,10 @@
 #include "FiberSim_m_state.h"
 #include "FiberSim_transition.h"
 
+#include "FiberSim_iso_scheme.h"
+#include "FiberSim_iso_type.h"
+#include "FiberSim_iso_transition.h"
+
 #include "kinetic_scheme.h"
 #include "transition.h"
 #include "baroreflex.h"
@@ -375,6 +379,40 @@ void perturbation::impose(double sim_time_s)
 			}
 		}
 
+		if (class_name == "m_iso_switching")
+		{
+			FiberSim_half_sarcomere* p_FiberSim_hs =
+				p_cmv_protocol->p_cmv_system->p_circulation->p_hemi_vent->p_muscle->
+				p_FiberSim_muscle->p_FiberSim_hs;
+
+			int no_of_digits = 3;
+			int digits[3];
+			int iso_index;
+			int transition_index;
+			int parameter_index;
+
+			for (int i = 0; i < no_of_digits; i++)
+				digits[i] = 0;
+
+			extract_digits(variable, digits, 3);
+
+			iso_index = digits[0] - 1;
+			transition_index = digits[1] - 1;
+			parameter_index = digits[2] - 1;
+
+			printf("iso_index: %i\n", iso_index);
+			printf("transition_index: %i\n", transition_index);
+			printf("parameter_index: %i\n", parameter_index);
+
+			// This is tricky because the variable is stored in a gsl_vector
+			p_double = gsl_vector_ptr(p_FiberSim_hs->p_m_iso_scheme->p_iso_types[iso_index]->
+										p_iso_transitions[transition_index]->rate_parameters,
+											parameter_index);
+
+			printf("p_double: %p\n", p_double);
+			printf("Value of p_double: %g\n", *p_double);
+		}
+
 		if (class_name == "thick_kinetics")
 		{
 			FiberSim_half_sarcomere* p_FiberSim_hs =
@@ -552,6 +590,8 @@ void perturbation::make_adjustment(double* p_double, double increment)
 	{
 		*p_double = *p_double + increment;
 	}
+
+	printf("Perturbation: %s %s new value: %g\n", class_name.c_str(), variable.c_str(), *p_double);
 }
 
 void perturbation::extract_digits(string test_string, int digits[], int no_of_digits)

@@ -371,6 +371,8 @@ double hemi_vent::return_pressure_for_chamber_volume(double cv, double time_step
 	}
 */
 
+
+
 	new_stress = p_muscle->return_wall_stress_after_test_delta_ml(delta_muscle_length, time_step_s);
 
 	new_stress = GSL_MAX(-1000.0, new_stress);

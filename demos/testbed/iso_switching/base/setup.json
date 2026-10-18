@@ -1,0 +1,65 @@
+{
+    "FiberVent_setup": {
+        "FiberVentCpp_exe": {
+            "relative_to": "this_file",
+            "exe_file": "../../../../code/fiberventcpp/bin/fiberventcpp.exe"
+        },
+        "model":
+        {
+            "relative_to": "this_file",
+            "options_file": "sim_options.json",
+            "model_files": [ "model.json" ]
+        },
+        "characterization":
+        [
+            {
+                "type": "freeform",
+                "relative_to": "this_file",
+                "sim_folder": "../sim_data/",
+                "run_mode": "default",
+                "m_n": 36,
+                "time_step_s": 0.001,
+                "sim_duration_s": 250,
+                "no_of_conditions": 1,
+                "template_files": ["../templates/template_summary.json"],
+                "output_types": ["png"],
+                "perturbation":
+                [
+                    {
+                        "class": "m_iso_switching",
+                        "variable": "iso_1_trans_1_par_1",
+                        "t_start_s": 50,
+                        "t_stop_s": 51,
+                        "total_change": 0.1,
+                        "simulation": [1]
+                    },
+                    {
+                        "class": "m_iso_switching",
+                        "variable": "iso_2_trans_1_par_1",
+                        "t_start_s": 100,
+                        "t_stop_s": 101,
+                        "total_change": 1,
+                        "simulation": [1]
+                    },
+                    {
+                        "class": "circulation",
+                        "variable": "blood_volume",
+                        "t_start_s": 150,
+                        "t_stop_s": 151,
+                        "total_change": 0.5,
+                        "simulation": [1]
+                    },
+                    {
+                        "class": "circulation",
+                        "variable": "resistance_4",
+                        "t_start_s": 200,
+                        "t_stop_s": 201,
+                        "total_change": 400,
+                        "simulation": [1]
+                    }
+                ]
+            }
+        ]
+        
+    }
+}

@@ -46,6 +46,9 @@ cmv_system::cmv_system(string JSON_model_file_string,
 
 	// Code
 
+	// Initialises an options object
+	p_cmv_options = new cmv_options(options_file_string);
+
 	// Code creates a cmv_model object
 	p_cmv_model = new cmv_model(JSON_model_file_string);
 
@@ -64,11 +67,6 @@ cmv_system::cmv_system(string JSON_model_file_string,
 	summary_t_index = 0;
 
 	summary_full_dump = 1.0;
-
-	// Initialises an options object
-	p_cmv_options = new cmv_options(options_file_string);
-
-	// Update the 
 
 	// Create constituent objects
 	p_circulation = new circulation(this);

@@ -62,7 +62,6 @@ cmv_model::cmv_model(string JSON_model_file_string)
 	// Initialise
 
 	// Code
-	cout << "In cmv_model constructor\n";
 
 	// Set safe options
 	p_m_scheme = NULL;
@@ -182,8 +181,6 @@ void cmv_model::initialise_model_from_JSON_file(string JSON_model_file_string)
 	// Save the version
 	bool check;
 	check = JSON_functions::check_JSON_member_exists(fibervent, "version");
-	printf("check: %d\n", check);
-
 
 	JSON_functions::check_JSON_member_string(fibervent, "version");
 	version_string = fibervent["version"].GetString();
@@ -203,7 +200,6 @@ void cmv_model::initialise_model_from_JSON_file(string JSON_model_file_string)
 	const rapidjson::Value& r_array = comp["resistance"];
 
 	circ_no_of_compartments = (int)r_array.Size();
-	cout << "circ_no_of_compartments: " << circ_no_of_compartments << "\n";
 
 	for (rapidjson::SizeType i = 0; i < r_array.Size(); i++)
 	{

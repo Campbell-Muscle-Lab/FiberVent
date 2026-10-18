@@ -25,6 +25,10 @@
 #include "FiberSim_m_state.h"
 #include "FiberSim_transition.h"
 
+#include "FiberSim_iso_scheme.h"
+#include "FiberSim_iso_type.h"
+#include "FiberSim_iso_transition.h"
+
 #include "gsl_math.h"
 #include "gsl_vector.h"
 #include "gsl_matrix.h"
@@ -74,8 +78,17 @@ FiberSim_half_sarcomere::FiberSim_half_sarcomere(FiberSim_muscle* set_p_parent_f
 	p_fs_model = p_parent_fs_muscle->p_parent_muscle->p_cmv_model->p_fs_model;
 	p_fs_options = p_parent_fs_muscle->p_parent_muscle->p_cmv_options->p_FiberSim_options;
 
+	p_m_iso_scheme = p_fs_model->p_m_iso_scheme;
+
+    // Allow for isotype switching
+    if (p_m_iso_scheme != NULL)
+    {
+        p_m_iso_scheme->p_fs_options = p_fs_options;
+    }
+
     // Set the class pointers to the kinetic scheme for myosin
-    for (int i = 0; i < p_fs_model->m_no_of_isotypes; i++) {
+    for (int i = 0; i < p_fs_model->m_no_of_isotypes; i++)
+    {
         p_m_scheme[i] = p_fs_model->p_m_scheme[i];
     }
 
@@ -429,7 +442,6 @@ void FiberSim_half_sarcomere::initialise_for_simulation(void)
     }
 }
 
-
 void FiberSim_half_sarcomere::sarcomere_kinetics(double time_step, double set_pCa)
 {
     //! Code updates the status of the thin, thick, and mybp-c molecules
@@ -438,6 +450,12 @@ void FiberSim_half_sarcomere::sarcomere_kinetics(double time_step, double set_pC
 
     // Update the pCa
     pCa = set_pCa;
+
+    // Update isoforms if required
+    if (p_m_iso_scheme != NULL)
+    {
+       myosin_iso_type_kinetics(time_step);
+    }
 
     // Map the filaments and run kinetics
     set_cb_nearest_a_n();
@@ -2659,6 +2677,7 @@ int FiberSim_half_sarcomere::return_m_transition(double time_step, int m_counter
     // Code
 
     // Set values
+
     cb_state = gsl_vector_short_get(p_mf[m_counter]->cb_state, cb_counter);
     cb_isotype = gsl_vector_short_get(p_mf[m_counter]->cb_iso, cb_counter);
     p_m_state = p_m_scheme[cb_isotype - 1]->p_m_states[cb_state - 1];
@@ -3083,6 +3102,62 @@ void FiberSim_half_sarcomere::handle_lattice_event(lattice_event* p_event)
 
             gsl_vector_short_set(p_mf[p_event->m_f]->pc_bound_to_a_f, p_event->m_n, -1);
             gsl_vector_short_set(p_mf[p_event->m_f]->pc_bound_to_a_n, p_event->m_n, -1);
+        }
+    }
+}
+
+void FiberSim_half_sarcomere::myosin_iso_type_kinetics(double time_step)
+{
+    //! Code deduces whether a myosin head will switch isotype
+
+    // Variables
+    FiberSim_iso_transition* p_iso_trans;        // pointer to an isotype transition
+
+    int m_iso;                          // isotype of the a myosin head
+    int event_index;                    // index of isoform transition event
+
+    double x;                           // the x position of each cross-bridge
+
+    double prob;                        // probability of an event
+
+    // Code
+
+    // Cycle through filaments
+    for (int m_counter = 0; m_counter < m_n; m_counter++)
+    {
+        for (int cb_counter = 0; cb_counter < m_cbs_per_thick_filament; cb_counter++)
+        {
+            // Zero the transition vector
+            gsl_vector_set_zero(p_m_iso_scheme->transition_probs);
+
+            m_iso = gsl_vector_short_get(p_mf[m_counter]->cb_iso, cb_counter);
+
+            for (int t_counter = 0; t_counter < p_m_iso_scheme->p_iso_types[m_iso - 1]->no_of_transitions;
+                t_counter++)
+            {
+                // Calculate the probability of the event
+                // Set the pointer
+                p_iso_trans = p_m_iso_scheme->p_iso_types[m_iso - 1]->p_iso_transitions[t_counter];
+
+                // And the cross-bridge position x
+                x = gsl_vector_get(p_mf[m_counter]->cb_x, cb_counter);
+
+                // Calculate it
+                prob = (1.0 - exp(-time_step * p_iso_trans->calculate_rate(x, this)));
+
+                // Assign
+                gsl_vector_set(p_m_iso_scheme->transition_probs, t_counter, prob);
+            }
+
+            // Now use a random number to determine which event (if any) occurred
+            event_index = return_event_index(p_m_iso_scheme->transition_probs);
+
+            // Implement event if required
+            if (event_index >= 0)
+            {
+				short new_iso_type = (short)(p_m_iso_scheme->p_iso_types[m_iso - 1]->p_iso_transitions[event_index]->new_iso_type);
+                gsl_vector_short_set(p_mf[m_counter]->cb_iso, cb_counter, new_iso_type);
+            }
         }
     }
 }

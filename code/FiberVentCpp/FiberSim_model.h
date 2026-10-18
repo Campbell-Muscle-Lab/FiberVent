@@ -19,6 +19,7 @@
 
 class FiberSim_kinetic_scheme;
 class FiberSim_options;
+class FiberSim_iso_scheme;
 
 using namespace std;
 
@@ -223,6 +224,20 @@ public:
 
     int no_of_model_hs_variations;      /**< integer with the number of half-sarcomere
                                                 variations */
+
+    // Isotype switching
+    FiberSim_iso_scheme* p_m_iso_scheme;
+                                        /**< pointer to a scheme that describes
+                                              isotype switching for myosin */
+
+    FiberSim_iso_scheme* p_c_iso_scheme;
+                                        /**< pointer to a kinetic scheme that describes
+                                              isotype switching for C-protein */
+
+
+    FiberSim_iso_scheme* p_thin_iso_scheme;
+                                        /**< pointer to a kinetic scheme that describes
+                                             isotype switching for binding sites */
 
     // Functions
 

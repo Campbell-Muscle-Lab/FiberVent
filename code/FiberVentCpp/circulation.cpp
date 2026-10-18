@@ -293,6 +293,7 @@ bool circulation::implement_time_step(double time_step_s)
 
 	// Update the hemi_vent object, which includes
 	// updating the daughter objects
+
 	new_beat = p_hemi_vent->implement_time_step(time_step_s);
 
 	// Fill the volume array
@@ -402,7 +403,7 @@ void circulation::calculate_pressures(const double v[], double p[], double time_
 	//! Function calculates pressures
 	
 	// Code
-	
+
 	p[0] = p_hemi_vent->return_pressure_for_chamber_volume(v[0], time_step_s);
 
 	// Calculate the other pressures

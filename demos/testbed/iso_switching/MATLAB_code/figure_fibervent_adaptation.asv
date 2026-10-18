@@ -1,0 +1,34 @@
+function figure_fibervent_adaptation(options)
+
+    arguments
+        options.sim_results_file_string = "../sim_data/sim_output/1/sim_output.txt"
+
+        options.status_folder = "../sim_data/sim_output/1/status";
+
+    end
+
+
+    % Get the status files
+    status_files = sort_nat(findfiles('json', options.status_folder))';
+
+    % Initialize the profile
+    z = [];
+
+    % Load the iso-type as a function of length
+    for fi = 1 : numel(status_files)
+
+        y = return_isotype_profile(status_files{fi}, "m");
+        z = [z y'];
+    end
+
+    % Average
+    [m,p] == size(z);
+    k = floor(m)
+    
+
+
+    figure(1);
+    clf
+    ribbon(z)
+
+    

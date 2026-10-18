@@ -413,7 +413,7 @@ def deduce_freeform_properties(json_analysis_file_string,
     else:
         base_dir = return_base_dir(json_analysis_file_string,
                                     'characterization',
-                                    char_index)
+                                    dict_index = char_index)
         top_data_dir = str(Path(os.path.join(base_dir,
                                              char_dict['sim_folder'])).
                                              resolve().absolute())

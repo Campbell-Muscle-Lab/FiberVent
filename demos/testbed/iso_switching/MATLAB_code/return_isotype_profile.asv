@@ -1,0 +1,21 @@
+function y = return_isotype_profile(status_file, mol_type)
+
+    % Load the file
+    d = readstruct(status_file)
+
+    % Initialize the profile
+
+    % Branch depending on mode
+    if (mol_type == "m")
+        for ti = 1 : numel(d.thick)
+            if (ti == 1)
+                y = zeros(1, numel(d.thick(ti).cb_iso))
+            end
+                y = (y + d.thick(ti).cb_iso;
+            end
+        end
+
+        y = y ./ numel(d.thick);
+
+    end
+
