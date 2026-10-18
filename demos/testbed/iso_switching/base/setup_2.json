@@ -15,9 +15,20 @@
                 "adjustments":
                 [
                     {
-                        "class": "m_iso_switching",
-                        "variable": "iso_2_trans_1_par_1",
-                        "multipliers": [0.2]
+                        "class": "m_kinetics",
+                        "isotype": 1,
+                        "state": 1,
+                        "transition": 1,
+                        "parameter_number": 2,
+                        "multipliers": [0.1]
+                    },
+                    {
+                        "class": "m_kinetics",
+                        "isotype": 2,
+                        "state": 1,
+                        "transition": 1,
+                        "parameter_number": 2,
+                        "multipliers": [0.1]
                     }
                 ]
             }
